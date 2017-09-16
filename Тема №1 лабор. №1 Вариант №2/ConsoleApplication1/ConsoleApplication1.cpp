@@ -1,21 +1,18 @@
-// ConsoleApplication1.cpp: определяет точку входа для консольного приложения.
-//
-
 #include "stdafx.h"
 #include "iostream"
+#include <stdio.h>
 using namespace std;
 
 
 int main()
 {
-	setlocale(0, "Russian"); 
 	float a;
 	printf ( "Enter the number of nodes: ") ; 
-	cin >> a;  
+	scanf_s("%f", &a);
 	float c = a *1.85;
 	float b = (c * 1000) / 3600;
-	cout << c << "km/h" << endl;
-	cout << b << "m/s" << endl;
+	printf("%.1f km/h \n", c);
+	printf("%.1f m/s \n", b);
 	system("pause");
 	return 0;
 }

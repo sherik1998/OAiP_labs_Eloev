@@ -8,10 +8,27 @@ using namespace std;
 
 int main()
 {
-	int array[1000];
-	printf("Enter the length of the array:");
+	int array[100];
+	int x;
 	int a;
-	cin >> a;
+	x = 0;
+	printf("Enter the length of the array:");
+	scanf_s ("%d", &a);
+	while (x == 0);
+	{
+		scanf_s("%d", &a);
+		if ((a <= 100) && (a > 0)) 
+		{
+			printf("Good!!");
+			x = 1;
+		}
+		else
+		{
+			printf("Error. Length may not exceed 1000 and be less than 0 , and may contain letters!!");
+			printf("Enter the length of the array:");
+			x = 0;
+		}
+	}
 	int c;
 	for (int i = 0; i <= (a - 1); i = i + 1)
  {

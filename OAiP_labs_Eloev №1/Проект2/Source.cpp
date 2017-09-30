@@ -9,9 +9,11 @@ int main()
 	float a;
 	printf("Введите количество узлов: ");
 	int x;
-	do {
+	do
+	{
 		x = scanf_s("%f", &a);
-		if (!x) {
+		if (!x)
+		{
 			printf("Ошибка ввода. Повторите попытку ввода: ");
 			while (getchar() != '\n');
 		}

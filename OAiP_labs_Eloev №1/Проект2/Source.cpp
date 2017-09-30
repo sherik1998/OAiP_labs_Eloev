@@ -1,3 +1,7 @@
+/*Елоев Георгий Александрович
+КТБО 1-8
+Лабораторная № 1
+Вариант №2*/
 #define _CRT_SECURE_NO_WARNINGSNO
 #include <stdio.h>
 

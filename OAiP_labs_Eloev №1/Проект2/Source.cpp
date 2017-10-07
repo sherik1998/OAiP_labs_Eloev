@@ -4,8 +4,8 @@
 Вариант №2
 Задание: Перевести узлы в км/ч и м/с*/
 #include <stdio.h>
-#define nodes_in_km_h 1.85 
-#define km_h_in_m_s 1000/3600
+#define NODES_IN_KM_H 1.85 
+#define KM_H_IN_M_S 1000/3600
 
 int main()
 {
@@ -14,21 +14,17 @@ int main()
 	float node;
 	printf("Введите количество узлов: ");
 	int x;
-	do
+	x = scanf_s("%f", &node);
+	while (!x)
 	{
+		printf("Ошибка ввода!!!\nПовторите попытку ввода: ");
+		while (getchar() != '\n');
+
 		x = scanf_s("%f", &node);
-		if (!x)
-		{
-			printf("Ошибка ввода!!!\nПовторите попытку ввода: ");
-			while (getchar() != '\n');
-		}
-		else
-		{
-			float km_h = node * nodes_in_km_h;
-			float m_s = km_h * km_h_in_m_s;
-			printf("%.1f узлов = %.1f км/ч = %.1f м/с  \n", node , km_h,m_s);
-		}
-	} while (x != 1);
+	}
+	float km_h = node * NODES_IN_KM_H;
+	float m_s = km_h * KM_H_IN_M_S;
+	printf("%.1f узлов = %.1f км/ч = %.1f м/с  \n", node, km_h, m_s);
 	_getch();
 	return 0;
 }

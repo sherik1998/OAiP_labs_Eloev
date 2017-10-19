@@ -19,7 +19,6 @@ int main()
 	{
 		printf("Ошибка ввода!!!\nПовторите попытку ввода: ");
 		while (getchar() != '\n');
-
 		x = scanf_s("%f", &node);
 	}
 	float km_h = node * NODES_IN_KM_H;

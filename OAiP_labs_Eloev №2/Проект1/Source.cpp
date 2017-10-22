@@ -1,10 +1,10 @@
-/*Елоев Георгий Александрович
-КТБО 1-8
-Лабораторная № 2
-Вариант №2
-Задание: Написать программу, которая вычисляет среднее арифметическое элементов
-массива без учета минимального и максимального элементов массива. Массив и
-его длина вводятся пользователем.*/
+п»ї/*Р•Р»РѕРµРІ Р“РµРѕСЂРіРёР№ РђР»РµРєСЃР°РЅРґСЂРѕРІРёС‡
+РљРўР‘Рћ 1-8
+Р›Р°Р±РѕСЂР°С‚РѕСЂРЅР°СЏ в„– 2
+Р’Р°СЂРёР°РЅС‚ в„–2
+Р—Р°РґР°РЅРёРµ: РќР°РїРёСЃР°С‚СЊ РїСЂРѕРіСЂР°РјРјСѓ, РєРѕС‚РѕСЂР°СЏ РІС‹С‡РёСЃР»СЏРµС‚ СЃСЂРµРґРЅРµРµ Р°СЂРёС„РјРµС‚РёС‡РµСЃРєРѕРµ СЌР»РµРјРµРЅС‚РѕРІ
+РјР°СЃСЃРёРІР° Р±РµР· СѓС‡РµС‚Р° РјРёРЅРёРјР°Р»СЊРЅРѕРіРѕ Рё РјР°РєСЃРёРјР°Р»СЊРЅРѕРіРѕ СЌР»РµРјРµРЅС‚РѕРІ РјР°СЃСЃРёРІР°. РњР°СЃСЃРёРІ Рё
+РµРіРѕ РґР»РёРЅР° РІРІРѕРґСЏС‚СЃСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»РµРј.*/
 #define  _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #define MAX_LENGTH 100
@@ -18,49 +18,50 @@ int main()
 	system("cls");
 	float array[MAX_LENGTH];
 	int length;
-	printf("Введите длину массива:");
-	while (!scanf("%d", &length) || (length > MAX_LENGTH) || (length < MIN_LENGTH))
+	printf("Р’РІРµРґРёС‚Рµ РґР»РёРЅСѓ РјР°СЃСЃРёРІР°:");
+	while (!scanf("%d", &length) || length > MAX_LENGTH || length < MIN_LENGTH)
 	{ 
-		printf("Ошибка ввода!Длина массива не должна содержать буквы, привышать 100 и быть меньше 3!\nПовторите попытку ввода: ");
+		printf("РћС€РёР±РєР° РІРІРѕРґР°!Р”Р»РёРЅР° РјР°СЃСЃРёРІР° РЅРµ РґРѕР»Р¶РЅР° СЃРѕРґРµСЂР¶Р°С‚СЊ Р±СѓРєРІС‹, РїСЂРёРІС‹С€Р°С‚СЊ 100 Рё Р±С‹С‚СЊ РјРµРЅСЊС€Рµ 3!\nРџРѕРІС‚РѕСЂРёС‚Рµ РїРѕРїС‹С‚РєСѓ РІРІРѕРґР°: ");
 		while (getchar() != '\n');
 	}
 	while (getchar() != '\n');
 	int counter; 
-	float min_and_max;
+	int max = 0;
 	for (counter = 0; counter < length; counter++)
 	{
-		printf("Ввведите значение array[%d]:", counter);
+		printf("Р’РІРІРµРґРёС‚Рµ Р·РЅР°С‡РµРЅРёРµ array[%d]:", counter);
 		while (!scanf("%f", &array[counter]))
 		{
-			printf("Ошибка ввода!!!\nПовторите попытку ввода array[%d]: ", counter);
+			printf("РћС€РёР±РєР° РІРІРѕРґР°!!!\nРџРѕРІС‚РѕСЂРёС‚Рµ РїРѕРїС‹С‚РєСѓ РІРІРѕРґР° array[%d]: ", counter);
 			while (getchar() != '\n');
 		}
 		while (getchar() != '\n');
 	}
-	for (counter = 0; counter < (length - 1); counter++)
+	int min = 0;
+	for (counter = 1; counter < length; counter++)
 	{
-		if (array[counter] > array[counter + 1])
+		if (array[max] < array[counter])
 		{
-			min_and_max = array[counter + 1];
-			array[counter + 1] = array[counter];
-			array[counter] = min_and_max;
+			max = counter;
+		}
+
+		if (array[min] > array[counter])
+		{
+			min = counter;
 		}
 	}
-	for (counter = 0; counter < (length - 2); counter++)
-	{
-		if (array[counter] < array[counter + 1])
-		{
-			min_and_max = array[counter + 1];
-			array[counter + 1] = array[counter];
-			array[counter] = min_and_max;
-		}
-	}
+	int buf = array[max];
+	array[max] = array[length - 1];
+	array[length - 1] = buf;
+	buf = array[min];
+	array[min] = array[length - 2];
+	array[length - 2] = buf;
 	float average;
 	average = 0;
 	for (counter = 0; counter < (length - 2); counter++)
 		average = average + array[counter];
 	average = average / (length - 2);
-	printf("Среднее арифметическое значение массива без минимального и максимального значения: %.1f", average);
+	printf("РЎСЂРµРґРЅРµРµ Р°СЂРёС„РјРµС‚РёС‡РµСЃРєРѕРµ Р·РЅР°С‡РµРЅРёРµ РјР°СЃСЃРёРІР° Р±РµР· РјРёРЅРёРјР°Р»СЊРЅРѕРіРѕ Рё РјР°РєСЃРёРјР°Р»СЊРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ: %.1f", average);
 	_getch();
 	return 0;
 }

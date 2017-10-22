@@ -19,14 +19,14 @@ int main()
 	float array[MAX_LENGTH];
 	int length;
 	printf("Введите длину массива:");
-	while (!scanf("%d", &length) || length > MAX_LENGTH || length < MIN_LENGTH)
+	while (!scanf("%d", &length) || (length > MAX_LENGTH) || (length < MIN_LENGTH))
 	{ 
 		printf("Ошибка ввода!Длина массива не должна содержать буквы, привышать 100 и быть меньше 3!\nПовторите попытку ввода: ");
 		while (getchar() != '\n');
 	}
 	while (getchar() != '\n');
 	int counter; 
-	int max = 0;
+	float min_and_max;
 	for (counter = 0; counter < length; counter++)
 	{
 		printf("Ввведите значение array[%d]:", counter);
@@ -37,25 +37,24 @@ int main()
 		}
 		while (getchar() != '\n');
 	}
-	int min = 0;
-	for (counter = 1; counter < length; counter++)
+	for (counter = 0; counter < (length - 1); counter++)
 	{
-		if (array[max] < array[counter])
+		if (array[counter] > array[counter + 1])
 		{
-			max = counter;
-		}
-
-		if (array[min] > array[counter])
-		{
-			min = counter;
+			min_and_max = array[counter + 1];
+			array[counter + 1] = array[counter];
+			array[counter] = min_and_max;
 		}
 	}
-	int buf = array[max];
-	array[max] = array[length - 1];
-	array[length - 1] = buf;
-	buf = array[min];
-	array[min] = array[length - 2];
-	array[length - 2] = buf;
+	for (counter = 0; counter < (length - 2); counter++)
+	{
+		if (array[counter] < array[counter + 1])
+		{
+			min_and_max = array[counter + 1];
+			array[counter + 1] = array[counter];
+			array[counter] = min_and_max;
+		}
+	}
 	float average;
 	average = 0;
 	for (counter = 0; counter < (length - 2); counter++)

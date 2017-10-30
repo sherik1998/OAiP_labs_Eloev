@@ -1,10 +1,12 @@
-﻿/*Елоев Георгий Александрович
-КТБО 1-8
-Лабораторная № 2
-Вариант №2
-Задание: Написать программу, которая вычисляет среднее арифметическое элементов
+﻿/*
+	Елоев Георгий Александрович
+	КТБО 1-8
+	Лабораторная № 2
+	Вариант №2
+	Задание: Написать программу, которая вычисляет среднее арифметическое элементов
 массива без учета минимального и максимального элементов массива. Массив и
-его длина вводятся пользователем.*/
+его длина вводятся пользователем.
+*/
 #define  _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #define MAX_LENGTH 100
@@ -26,7 +28,6 @@ int main()
 	}
 	while (getchar() != '\n');
 	int counter; 
-	float min_and_max;
 	for (counter = 0; counter < length; counter++)
 	{
 		printf("Ввведите значение array[%d]:", counter);
@@ -37,27 +38,25 @@ int main()
 		}
 		while (getchar() != '\n');
 	}
-	for (counter = 0; counter < (length - 1); counter++)
+	int max = 0;
+	int min = 0;
+	for (counter = 1; counter < length; counter++)
 	{
-		if (array[counter] > array[counter + 1])
+		if (array[max] < array[counter])
 		{
-			min_and_max = array[counter + 1];
-			array[counter + 1] = array[counter];
-			array[counter] = min_and_max;
+			max = counter;
+		}
+
+		if (array[min] > array[counter])
+		{
+			min = counter;
 		}
 	}
-	for (counter = 0; counter < (length - 2); counter++)
-	{
-		if (array[counter] < array[counter + 1])
-		{
-			min_and_max = array[counter + 1];
-			array[counter + 1] = array[counter];
-			array[counter] = min_and_max;
-		}
-	}
+	array[max] = 0;
+	array[min] = 0;
 	float average;
 	average = 0;
-	for (counter = 0; counter < (length - 2); counter++)
+	for (counter = 0; counter < length; counter++)
 		average = average + array[counter];
 	average = average / (length - 2);
 	printf("Среднее арифметическое значение массива без минимального и максимального значения: %.1f", average);

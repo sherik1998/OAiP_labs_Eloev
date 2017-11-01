@@ -62,6 +62,7 @@ int main()
 	_getch();
 	return 0;
 }
+
 int function_enter2(void)
 {
 	int number;

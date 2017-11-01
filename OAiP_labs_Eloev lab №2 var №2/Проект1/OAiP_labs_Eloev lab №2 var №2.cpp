@@ -12,31 +12,30 @@
 #define MAX_LENGTH 100
 #define MIN_LENGTH 3
 
-
+int function_enter2(void);
+float function_enter(void);
 
 int main()
 {
 	system("chcp 1251");
 	system("cls");
 	float array[MAX_LENGTH];
-	int length;
+	int length = 0;
 	printf("Введите длину массива:");
-	while (!scanf("%d", &length) || (length > MAX_LENGTH) || (length < MIN_LENGTH))
-	{ 
-		printf("Ошибка ввода!Длина массива не должна содержать буквы, привышать 100 и быть меньше 3!\nПовторите попытку ввода: ");
-		while (getchar() != '\n');
+	while (length > MAX_LENGTH || length < MIN_LENGTH)
+	{
+		length = function_enter2();
+		if (length > MAX_LENGTH || length < MIN_LENGTH)
+		{
+			printf("Ошибка ввода!Длина массива не должна содержать буквы, привышать 100 и быть меньше 3!\nПовторите попытку ввода: ");
+		}
 	}
-	while (getchar() != '\n');
+
 	int counter; 
 	for (counter = 0; counter < length; counter++)
 	{
 		printf("Ввведите значение array[%d]:", counter);
-		while (!scanf("%f", &array[counter]))
-		{
-			printf("Ошибка ввода!!!\nПовторите попытку ввода array[%d]: ", counter);
-			while (getchar() != '\n');
-		}
-		while (getchar() != '\n');
+		array[counter] = function_enter();
 	}
 	int max = 0;
 	int min = 0;
@@ -62,4 +61,29 @@ int main()
 	printf("Среднее арифметическое значение массива без минимального и максимального значения: %.1f", average);
 	_getch();
 	return 0;
+}
+int function_enter2(void)
+{
+	int number;
+	scanf("%d", &number);
+	if (getchar() != '\n' ) 
+	{
+		printf("Ошибка ввода!Длина массива не должна содержать буквы, привышать 100 и быть меньше 3!\nПовторите попытку ввода: ");
+		while (getchar() != '\n');
+		number = function_enter();
+	}
+	return number;
+}
+
+float function_enter(void)
+{
+	float number;
+	scanf("%f", &number);
+	if (getchar() != '\n') 
+	{
+		printf("Ошибка!\nПовторите ввод:");
+		while (getchar() != '\n');
+		number = function_enter();
+	}
+	return number;
 }

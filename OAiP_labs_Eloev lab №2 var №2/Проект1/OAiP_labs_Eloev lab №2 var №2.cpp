@@ -12,8 +12,8 @@
 #define MAX_LENGTH 100
 #define MIN_LENGTH 3
 
-int function_enter2(void);
-float function_enter(void);
+int check();
+float checkarray();
 
 int main()
 {
@@ -24,59 +24,58 @@ int main()
 	printf("Введите длину массива:");
 	while (length > MAX_LENGTH || length < MIN_LENGTH)
 	{
-		length = function_enter2();
+		length = check();
 		if (length > MAX_LENGTH || length < MIN_LENGTH)
 		{
-			printf("Ошибка ввода!Длина массива не должна содержать буквы, привышать 100 и быть меньше 3!\nПовторите попытку ввода: ");
+			printf("Ошибка ввода!Длина массива не должна содержать буквы, привышать %d и быть меньше 3!\nПовторите попытку ввода: ", MAX_LENGTH);
 		}
 	}
 
-	int counter; 
-	for (counter = 0; counter < length; counter++)
+	for (int i = 0; i < length; i++)
 	{
-		printf("Ввведите значение array[%d]:", counter);
-		array[counter] = function_enter();
+		printf("Ввведите значение array[%d]:", i);
+		array[i] = checkarray();
 	}
 	int max = 0;
 	int min = 0;
-	for (counter = 1; counter < length; counter++)
+	for (int i = 1; i < length; i++)
 	{
-		if (array[max] < array[counter])
+		if (array[max] < array[i])
 		{
-			max = counter;
+			max = i;
 		}
 
-		if (array[min] > array[counter])
+		if (array[i] > array[i])
 		{
-			min = counter;
+			min = i;
 		}
 	}
 	array[max] = 0;
 	array[min] = 0;
 	float average;
 	average = 0;
-	for (counter = 0; counter < length; counter++)
-		average = average + array[counter];
+	for (int i = 0; i < length; i++)
+		average = average + array[i];
 	average = average / (length - 2);
 	printf("Среднее арифметическое значение массива без минимального и максимального значения: %.1f", average);
 	_getch();
 	return 0;
 }
 
-int function_enter2(void)
+int check()
 {
 	int number;
 	scanf("%d", &number);
 	if (getchar() != '\n' ) 
 	{
-		printf("Ошибка ввода!Длина массива не должна содержать буквы, привышать 100 и быть меньше 3!\nПовторите попытку ввода: ");
+		printf("Ошибка ввода!Длина массива не должна содержать буквы, привышать %d и быть меньше 3!\nПовторите попытку ввода: ", MAX_LENGTH);
 		while (getchar() != '\n');
-		number = function_enter();
+		number = check();
 	}
 	return number;
 }
 
-float function_enter(void)
+float checkarray()
 {
 	float number;
 	scanf("%f", &number);
@@ -84,7 +83,7 @@ float function_enter(void)
 	{
 		printf("Ошибка!\nПовторите ввод:");
 		while (getchar() != '\n');
-		number = function_enter();
+		number = checkarray();
 	}
 	return number;
 }

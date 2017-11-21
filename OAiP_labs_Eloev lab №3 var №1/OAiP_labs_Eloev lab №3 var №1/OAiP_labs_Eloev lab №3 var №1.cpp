@@ -6,11 +6,14 @@
 	заменит все окончания слов «ть» на «ся» и выведет результат на экран.
 */
 
-#define MAX_LENGTH 1024
+
 
 #include <stdio.h>
 #include <conio.h>
 #include <locale>
+
+#define MAX_LENGTH 1024
+#define SYMBOL '!',' ',';','.',',','?',':','-',')','}',']','"'
 
 int replacement(char *text);
 
@@ -30,10 +33,9 @@ int main()
 
 int replacement(char *text)
 {
-	
 	for (int i = 2; text[i] !='\0'; i++)
 	{
-		if ((text[i] == ' ' || text[i] == '\n') && text[i - 1] == 'ь' && text[i - 2] == 'т')
+		if ((text[i] == SYMBOL || text[i] == '\n' ) && text[i - 1] == 'ь' && text[i - 2] == 'т')
 		{
 			text[i - 1] = 'я';
 			text[i - 2] = 'с';

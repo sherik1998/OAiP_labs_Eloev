@@ -15,31 +15,46 @@
 #define MAX_LENGTH 1024
 #define SYMBOL '!',' ',';','.',',','?',':','-',')','}',']','"'
 
-int ret(FILE *File);
-int pop(int stop,char *text, FILE *SourceFile);
-int replacement(char *text);
+
+int checkfile(FILE *File);//проверка нахождения файла
+int thenumberofcharacters(FILE *File);//счет количества символов в файле
+int fileintoanarray(int stop,char *text, FILE *SourceFile);//запись символов из файла в массив
+int replacement(char *text);//смена ть на ся в конце слов
 
 int main()
 {
 	system("chcp 1251");
 	system("cls");
 	FILE *File = fopen("Text #1.txt", "r");
+	checkfile(File);
 	FILE *NewFile = fopen("Text #2.txt", "w");
 	char text[MAX_LENGTH];
 	int stop;
-	stop = ret(File);
+	stop = thenumberofcharacters(File);
 	fclose(File);
 	FILE *SourceFile = fopen("Text #1.txt", "r");
-	pop(stop,text, SourceFile);
+	checkfile(SourceFile);
+	fileintoanarray(stop,text, SourceFile);
 	replacement(text);
-	for (int i = 0; i < stop ; i++)
+	for (int i = 0; i < stop; i++) // запись массива в файл
+	{
 		fprintf(NewFile, "%c", text[i]);
+	}
 	fclose(NewFile);
 	fclose(SourceFile);
 	return 0;
 }
 
-int ret(FILE *SourceFile) 
+int checkfile(FILE *File)
+{
+	if (File == NULL) {
+		printf("Ошибка.Файл не найден!");
+		_getch();
+		exit(0);
+	}
+
+}
+int thenumberofcharacters(FILE *SourceFile)
 {
 	int stop = 0;
 	for (int i = 0; fgetc(SourceFile) != EOF ;i++)
@@ -47,10 +62,9 @@ int ret(FILE *SourceFile)
 	return stop;
 }
 
-int pop(int stop,char *text, FILE *SourceFile)
+int fileintoanarray(int stop,char *text, FILE *SourceFile)
 {
-	int i;
-	for ( i = 0; i < stop;i++)
+	for (int i = 0; i < stop; i++)
 	{
 		text[i] = fgetc(SourceFile);
 	}

@@ -25,14 +25,6 @@
 #define MAX_LENGTH 1024 
 #define STRUCTURE_LENGTH 512
 
-int initialization();
-void input(int i);
-void output(int i);
-void seek(int i, int struc, char *Search, char *array);
-void sort(int k, int j);
-void print(int number);
-void new_input(int number);
-
 struct Struct
 {
 	char surname[MAX_LENGTH];
@@ -51,22 +43,32 @@ struct Struct
 	char address_street[MAX_LENGTH];
 	char address_house[MAX_LENGTH];
 	char address_apartment[MAX_LENGTH];
-	int price;
-}People[STRUCTURE_LENGTH];
+};
+
+int initialization(Struct *People);
+void input(Struct *People, int i);
+void output(Struct *People, int i);
+void seek(Struct *People,int i, int struc, char *Search, char *array);
+void sort(Struct *People,int k, int j);
+void print(Struct *People,int number);
+void new_input(Struct *People,int number);
+void ret(Struct *People, int number, int struc, char *Search);
 
 void main()
 {
 	system("chcp 1251");
 	system("cls");
+	Struct *People = new Struct[STRUCTURE_LENGTH];
+	Struct **q = new Struct*[STRUCTURE_LENGTH];
 	char Search[MAX_LENGTH];
 	int main_screen = 0;
-	int number_of_structures = initialization();
+	int number_of_structures = initialization(People);
 	int sorting = 0;
 	int search = 0;
 	int i = 0;
 	int struc = 0;
-	int code;  
-	Struct **q = new Struct*[STRUCTURE_LENGTH];
+	int code; 
+
 	do
 	{
 		printf("---Введите номер---\n");
@@ -85,7 +87,7 @@ void main()
 			printf("--- Дополнить новой записью структуру ---\n");
 			if (number_of_structures < STRUCTURE_LENGTH)	//проверка 
 			{
-				input(number_of_structures);
+				input(People,number_of_structures);
 				number_of_structures++;
 				system("pause");
 				system("cls");
@@ -125,11 +127,11 @@ void main()
 				{
 				case 1: printf(" --- Поиск по Фамилии --- \n");
 					printf("Введите Фамилию\n -->");
-					
+
 					scanf("%s", &Search);
 					for (i = 0; i < number_of_structures; i++)
 					{
-						seek(i, struc, Search, People[i].surname);
+						seek(People, i, struc, Search, People[i].surname);
 					}
 					if (struc == 0)
 					{
@@ -138,6 +140,7 @@ void main()
 					struc = 0;
 					system("pause");
 					system("cls");
+					//ret(People,number_of_structures, struc, Search);
 					break;
 				case 2:printf(" --- Поиск по Имени --- \n");
 					printf("Введите Имя\n -->");
@@ -145,7 +148,7 @@ void main()
 					scanf("%s", &Search);
 					for (i = 0; i < number_of_structures; i++)
 					{
-						seek(i, struc, Search, People[i].name);
+						seek(People, i, struc, Search, People[i].name);
 					}
 					if (struc == 0)
 					{
@@ -161,7 +164,7 @@ void main()
 					scanf("%s", &Search);
 					for (i = 0; i < number_of_structures; i++)
 					{
-						seek(i, struc, Search, People[i].sex);
+						seek(People,i, struc, Search, People[i].sex);
 					}
 					if (struc == 0)
 					{
@@ -177,7 +180,7 @@ void main()
 					scanf("%s", &Search);
 					for (i = 0; i < number_of_structures; i++)
 					{
-						seek(i, struc, Search, People[i].growth);
+						seek(People,i, struc, Search, People[i].growth);
 					}
 					if (struc == 0)
 					{
@@ -193,7 +196,7 @@ void main()
 					scanf("%s", &Search);
 					for (i = 0; i < number_of_structures; i++)
 					{
-						seek(i, struc, Search, People[i].weight);
+						seek(People, i, struc, Search, People[i].weight);
 					}
 					if (struc == 0)
 					{
@@ -209,7 +212,7 @@ void main()
 					scanf("%s", &Search);
 					for (i = 0; i < number_of_structures; i++)
 					{
-						seek(i, struc, Search, People[i].date_number);
+						seek(People, i, struc, Search, People[i].date_number);
 					}
 					if (struc == 0)
 					{
@@ -225,7 +228,7 @@ void main()
 					scanf("%s", &Search);
 					for (i = 0; i < number_of_structures; i++)
 					{
-						seek(i, struc, Search, People[i].date_month);
+						seek(People, i, struc, Search, People[i].date_month);
 					}
 					if (struc == 0)
 					{
@@ -241,7 +244,7 @@ void main()
 					scanf("%s", &Search);
 					for (i = 0; i < number_of_structures; i++)
 					{
-						seek(i, struc, Search, People[i].date_year);
+						seek(People, i, struc, Search, People[i].date_year);
 					}
 					if (struc == 0)
 					{
@@ -257,7 +260,7 @@ void main()
 					scanf("%s", &Search);
 					for (i = 0; i < number_of_structures; i++)
 					{
-						seek(i, struc, Search, People[i].phone_number);
+						seek(People, i, struc, Search, People[i].phone_number);
 					}
 					if (struc == 0)
 					{
@@ -273,7 +276,7 @@ void main()
 					scanf("%s", &Search);
 					for (i = 0; i < number_of_structures; i++)
 					{
-						seek(i, struc, Search, People[i].address_index);
+						seek(People, i, struc, Search, People[i].address_index);
 					}
 					if (struc == 0)
 					{
@@ -289,7 +292,7 @@ void main()
 					scanf("%s", &Search);
 					for (i = 0; i < number_of_structures; i++)
 					{
-						seek(i, struc, Search, People[i].address_country);
+						seek(People, i, struc, Search, People[i].address_country);
 					}
 					if (struc == 0)
 					{
@@ -305,7 +308,7 @@ void main()
 					scanf("%s", &Search);
 					for (i = 0; i < number_of_structures; i++)
 					{
-						seek(i, struc, Search, People[i].address_region);
+						seek(People, i, struc, Search, People[i].address_region);
 					}
 					if (struc == 0)
 					{
@@ -321,7 +324,7 @@ void main()
 					scanf("%s", &Search);
 					for (i = 0; i < number_of_structures; i++)
 					{
-						seek(i, struc, Search, People[i].address_city);
+						seek(People, i, struc, Search, People[i].address_city);
 					}
 					if (struc == 0)
 					{
@@ -337,7 +340,7 @@ void main()
 					scanf("%s", &Search);
 					for (i = 0; i < number_of_structures; i++)
 					{
-						seek(i, struc, Search, People[i].address_street);
+						seek(People, i, struc, Search, People[i].address_street);
 					}
 					if (struc == 0)
 					{
@@ -353,7 +356,7 @@ void main()
 					scanf("%s", &Search);
 					for (i = 0; i < number_of_structures; i++)
 					{
-						seek(i, struc, Search, People[i].address_house);
+						seek(People, i, struc, Search, People[i].address_house);
 					}
 					if (struc == 0)
 					{
@@ -369,7 +372,7 @@ void main()
 					scanf("%s", &Search);
 					for (i = 0; i < number_of_structures; i++)
 					{
-						seek(i, struc, Search, People[i].address_apartment);
+						seek(People, i, struc, Search, People[i].address_apartment);
 					}
 					if (struc == 0)
 					{
@@ -396,7 +399,7 @@ void main()
 			}
 			else
 			{
-				print(number_of_structures);
+				print(People, number_of_structures);
 			}
 			system("pause");
 			system("cls");
@@ -436,11 +439,11 @@ void main()
 						for (int j = 0; j < number_of_structures - i - 1; j++)
 						{
 							code = strcmp(People[j].surname, People[j+1].surname); 
-							sort(code, j);
+							sort(People, code, j);
 						}
 					}
-					print(number_of_structures);
-					new_input(number_of_structures);
+					print(People, number_of_structures);
+					new_input(People, number_of_structures);
 					system("pause");
 					system("cls");
 					break;
@@ -450,11 +453,11 @@ void main()
 						for (int j = 0; j < number_of_structures - i - 1; j++)
 						{	
 							code = strcmp(People[j].name, People[j + 1].name);
-							sort(code, j);
+							sort(People, code, j);
 						}
 					}
-					print(number_of_structures);
-					new_input(number_of_structures);
+					print(People, number_of_structures);
+					new_input(People, number_of_structures);
 					system("pause");
 					system("cls");
 					break;
@@ -463,11 +466,12 @@ void main()
 					{
 						for (int j = 0; j < number_of_structures - i - 1; j++)
 						{
-							code = strcmp(People[j].sex, People[j + 1].sex); sort(code, j);
+							code = strcmp(People[j].sex, People[j + 1].sex);
+							sort(People, code, j);
 						}
 					}
-					print(number_of_structures);
-					new_input(number_of_structures);
+					print(People, number_of_structures);
+					new_input(People, number_of_structures);
 					system("pause");
 					system("cls");
 					break;
@@ -476,11 +480,12 @@ void main()
 					{
 						for (int j = 0; j < number_of_structures - i - 1; j++)
 						{
-							code = strcmp(People[j].growth, People[j + 1].growth); sort(code, j);
+							code = strcmp(People[j].growth, People[j + 1].growth); 
+							sort(People, code, j);
 						}
 					}
-					print(number_of_structures);
-					new_input(number_of_structures);
+					print(People, number_of_structures);
+					new_input(People, number_of_structures);
 					system("pause");
 					system("cls");
 					break;
@@ -489,11 +494,12 @@ void main()
 					{
 						for (int j = 0; j < number_of_structures - i - 1; j++)
 						{
-							code = strcmp(People[j].weight, People[j + 1].weight); sort(code, j);
+							code = strcmp(People[j].weight, People[j + 1].weight);
+							sort(People, code, j);
 						}
 					}
-					print(number_of_structures);
-					new_input(number_of_structures);
+					print(People, number_of_structures);
+					new_input(People, number_of_structures);
 					system("pause");
 					system("cls");
 					break;
@@ -502,11 +508,12 @@ void main()
 					{
 						for (int j = 0; j < number_of_structures - i - 1; j++)
 						{
-							code = strcmp(People[j].date_number, People[j + 1].date_number); sort(code, j);
+							code = strcmp(People[j].date_number, People[j + 1].date_number); 
+							sort(People, code, j);
 						}
 					}
-					print(number_of_structures);
-					new_input(number_of_structures);
+					print(People, number_of_structures);
+					new_input(People, number_of_structures);
 					system("pause");
 					system("cls");
 					break;
@@ -515,11 +522,12 @@ void main()
 					{
 						for (int j = 0; j < number_of_structures - i - 1; j++)
 						{
-							code = strcmp(People[j].date_month, People[j + 1].date_month); sort(code, j);
+							code = strcmp(People[j].date_month, People[j + 1].date_month);
+							sort(People, code, j);
 						}
 					}
-					print(number_of_structures);
-					new_input(number_of_structures);
+					print(People, number_of_structures);
+					new_input(People, number_of_structures);
 					system("pause");
 					system("cls");
 					break;
@@ -528,11 +536,12 @@ void main()
 					{
 						for (int j = 0; j < number_of_structures - i - 1; j++)
 						{
-							code = strcmp(People[j].date_year, People[j + 1].date_year); sort(code, j);
+							code = strcmp(People[j].date_year, People[j + 1].date_year);
+							sort(People, code, j);
 						}
 					}
-					print(number_of_structures);
-					new_input(number_of_structures);
+					print(People, number_of_structures);
+					new_input(People, number_of_structures);
 					system("pause");
 					system("cls");
 					break;
@@ -541,11 +550,12 @@ void main()
 					{
 						for (int j = 0; j < number_of_structures - i - 1; j++)
 						{
-							code = strcmp(People[j].phone_number, People[j + 1].phone_number); sort(code, j);
+							code = strcmp(People[j].phone_number, People[j + 1].phone_number);
+							sort(People, code, j);
 						}
 					}
-					print(number_of_structures);
-					new_input(number_of_structures);
+					print(People, number_of_structures);
+					new_input(People, number_of_structures);
 					system("pause");
 					system("cls");
 					break;
@@ -554,11 +564,12 @@ void main()
 					{
 						for (int j = 0; j < number_of_structures - i - 1; j++)
 						{
-							code = strcmp(People[j].address_index, People[j + 1].address_index); sort(code, j);
+							code = strcmp(People[j].address_index, People[j + 1].address_index);
+							sort(People, code, j);
 						}
 					}
-					print(number_of_structures);
-					new_input(number_of_structures);
+					print(People, number_of_structures);
+					new_input(People, number_of_structures);
 					system("pause");
 					system("cls");
 					break;
@@ -567,11 +578,12 @@ void main()
 					{
 						for (int j = 0; j < number_of_structures - i - 1; j++)
 						{
-							code = strcmp(People[j].address_country, People[j + 1].address_country); sort(code, j);
+							code = strcmp(People[j].address_country, People[j + 1].address_country);
+							sort(People, code, j);
 						}
 					}
-					print(number_of_structures);
-					new_input(number_of_structures);
+					print(People, number_of_structures);
+					new_input(People, number_of_structures);
 					system("pause");
 					system("cls");
 					break;
@@ -580,11 +592,12 @@ void main()
 					{
 						for (int j = 0; j < number_of_structures - i - 1; j++)
 						{
-							code = strcmp(People[j].address_region, People[j + 1].address_region); sort(code, j);
+							code = strcmp(People[j].address_region, People[j + 1].address_region); 
+							sort(People, code, j);
 						}
 					}
-					print(number_of_structures);
-					new_input(number_of_structures);
+					print(People, number_of_structures);
+					new_input(People, number_of_structures);
 					system("pause");
 					system("cls");
 					break;
@@ -593,11 +606,12 @@ void main()
 					{
 						for (int j = 0; j < number_of_structures - i - 1; j++)
 						{
-							code = strcmp(People[j].address_city, People[j + 1].address_city); sort(code, j);
+							code = strcmp(People[j].address_city, People[j + 1].address_city);
+							sort(People, code, j);
 						}
 					}
-					print(number_of_structures);
-					new_input(number_of_structures);
+					print(People, number_of_structures);
+					new_input(People, number_of_structures);
 					system("pause");
 					system("cls");
 					break;
@@ -606,11 +620,12 @@ void main()
 					{
 						for (int j = 0; j < number_of_structures - i - 1; j++)
 						{
-							code = strcmp(People[j].address_street, People[j + 1].address_street); sort(code, j);
+							code = strcmp(People[j].address_street, People[j + 1].address_street); 
+							sort(People, code, j);
 						}
 					}
-					print(number_of_structures);
-					new_input(number_of_structures);
+					print(People, number_of_structures);
+					new_input(People, number_of_structures);
 					system("pause");
 					system("cls");
 					break;
@@ -619,11 +634,12 @@ void main()
 					{
 						for (int j = 0; j < number_of_structures - i - 1; j++)
 						{
-							code = strcmp(People[j].address_house, People[j + 1].address_house); sort(code, j);
+							code = strcmp(People[j].address_house, People[j + 1].address_house); 
+							sort(People, code, j);
 						}
 					}
-					print(number_of_structures);
-					new_input(number_of_structures);
+					print(People, number_of_structures);
+					new_input(People, number_of_structures);
 					system("pause");
 					system("cls");
 					break;
@@ -632,11 +648,12 @@ void main()
 					{
 						for (int j = 0; j < number_of_structures - i - 1; j++)
 						{
-							code = strcmp(People[j].address_apartment, People[j + 1].address_apartment); sort(code, j);
+							code = strcmp(People[j].address_apartment, People[j + 1].address_apartment); 
+							sort(People, code, j);
 						}
 					}
-					print(number_of_structures);
-					new_input(number_of_structures);
+					print(People, number_of_structures);
+					new_input(People, number_of_structures);
 					system("pause");
 					system("cls");
 					break;
@@ -658,7 +675,7 @@ void main()
 	system("pause");
 }
 
-int initialization() 
+int initialization(Struct *People)
 {
 	FILE *File = fopen("Struct.txt", "r");
 	FILE *File1 = fopen("Struct.txt", "r");
@@ -683,7 +700,7 @@ int initialization()
 	return i;
 }
 
-void input(int i)
+void input(Struct *People, int i)
 {
 	printf("---Введите свои данный---\n");
 	printf("Введите свою фамилию: ");
@@ -718,8 +735,6 @@ void input(int i)
 	scanf("%s", &People[i].address_house);
 	printf("Введите номер квартиры(если дом не квартирный то поставь 0): ");
 	scanf("%s", &People[i].address_apartment);
-	printf("Введите цену квартиры: ");
-	scanf("%d", &People[i].price);
 	printf("Конец ввода.\n\n");
 
 	FILE *File = fopen("Struct.txt", "a");
@@ -727,7 +742,7 @@ void input(int i)
 	fclose(File);
 }
 
-void output(int i) 
+void output(Struct *People, int i)
 {
 	printf("Фамилия: %s\t", &People[i].surname);
 	printf("Имя: %s\t", &People[i].name);
@@ -743,17 +758,17 @@ void output(int i)
 	printf("Адрес:  ул.%s  дом №%s кв.№%s\n\n", &People[i].address_street, &People[i].address_house, &People[i].address_apartment);
 }
 
-void seek(int i, int struc, char *Search, char * array)
+void seek(Struct *People, int i, int struc, char *Search, char * array)
 {
 	if (strcmp(Search, array) == 0)
 	{
 		struc++;
 		printf("Струра найденна\n Номер структуры -> %d\n", i + 1);
-		output(i);
+		output(People,i);
 	}
 }
 
-void sort(int k, int j) 
+void sort(Struct *People, int k, int j)
 {
 	if (k > 0)
 	{
@@ -763,17 +778,16 @@ void sort(int k, int j)
 	}
 }
 
-void print(int number)
+void print(Struct *People, int number)
 {
 	for (int i = 0; i < number; i++)
 	{
-		output(i);
+		output(People,i);
 	}
 }
 
-void new_input(int number) 
+void new_input(Struct *People, int number)
 {
-
 	FILE *File = fopen("Sort.txt", "w");
 	for (int i = 0; i < number; i++)
 	{
@@ -781,3 +795,29 @@ void new_input(int number)
 	}
 	fclose(File);
 }
+
+void ret(Struct *People, int number, int struc, char *Search)
+{
+	/*Struct **q = new Struct*[STRUCTURE_LENGTH];
+	for (int i = 0; i < number; i++)
+	{
+		q[i] = &People[i];
+	}*/
+	scanf("%s", &Search);
+	for (int i = 0; i < number; i++)
+	{
+		if (strcmp(Search, People[i].name) == 0)
+		{
+			struc++;
+			printf("Струра найденна\n Номер структуры -> %d\n", i + 1);
+			output(People, i);
+		}
+	}
+	if (struc == 0)
+	{
+		printf("Структура не найденна\n");
+	}
+	struc = 0;
+	system("pause");
+	system("cls");
+};

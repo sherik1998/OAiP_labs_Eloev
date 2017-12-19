@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{36278899-FB5D-4AF0-9914-F7ADF9FE64BA}</ProjectGuid>
-    <RootNamespace>OAiP_labs_Eloevlab№3var№1</RootNamespace>
+    <ProjectGuid>{BDF45219-0BB2-460C-8E2B-528A75AD3ACA}</ProjectGuid>
+    <RootNamespace>OAiP_Inaividualka_Eloevvar№11</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -111,10 +111,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="OAiP_labs_Eloev lab №3 var №1.cpp">
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Default</CompileAs>
-    </ClCompile>
-    <ClCompile Include="OAiP_labs_Eloev lab №3 var №2.cpp" />
+    <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

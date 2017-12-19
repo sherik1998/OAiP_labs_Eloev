@@ -16,62 +16,63 @@
 #define SYMBOL '!',' ',';','.',',','?',':','-',')','}',']','"'
 
 
-int checkfile(FILE *File);//проверка нахождения файла
-int thenumberofcharacters(FILE *File);//счет количества символов в файле
-int fileintoanarray(int stop,char *text, FILE *SourceFile);//запись символов из файла в массив
-int replacement(char *text);//смена ть на ся в конце слов
+void checkFile(FILE *File);//проверка нахождения файла
+int getNumberOfCharacters(FILE *File);//счет количества символов в файле
+void readFileInArray(int length,char *text, FILE *SourceFile);//запись символов из файла в массив
+void replacement(char *text);//смена ть на ся в конце слов
+void writeFile(FILE *File, int length, char *text);//Запись в файл 
 
 int main()
 {
 	system("chcp 1251");
 	system("cls");
 	FILE *File = fopen("Text #1.txt", "r");
-	checkfile(File);
+	checkFile(File);
 	FILE *NewFile = fopen("Text #2.txt", "w");
 	char text[MAX_LENGTH];
-	int stop;
-	stop = thenumberofcharacters(File);
+	int length;
+	length = getNumberOfCharacters(File);
 	fclose(File);
 	FILE *SourceFile = fopen("Text #1.txt", "r");
-	checkfile(SourceFile);
-	fileintoanarray(stop,text, SourceFile);
+	readFileInArray(length,text, SourceFile);
 	replacement(text);
-	for (int i = 0; i < stop; i++) // запись массива в файл
-	{
-		fprintf(NewFile, "%c", text[i]);
-	}
+	writeFile(NewFile, length, text);
 	fclose(NewFile);
 	fclose(SourceFile);
 	return 0;
 }
 
-int checkfile(FILE *File)
+void checkFile(FILE *File)
 {
 	if (File == NULL) {
-		printf("Ошибка.Файл не найден!");
+		printf("Ошибка.Файл не найден!\n");
+		printf("Создаём файл!\nПожадуста заполните его!\nИ перезапустите программу!");
+		FILE *New = fopen("Text #1.txt", "w");
+		fclose(New);
 		_getch();
 		exit(0);
 	}
-
-}
-int thenumberofcharacters(FILE *SourceFile)
-{
-	int stop = 0;
-	for (int i = 0; fgetc(SourceFile) != EOF ;i++)
-		stop = stop + 1;
-	return stop;
 }
 
-int fileintoanarray(int stop,char *text, FILE *SourceFile)
+int getNumberOfCharacters(FILE *SourceFile)
 {
-	for (int i = 0; i < stop; i++)
+	int length = 0;
+	while (fgetc(SourceFile) != EOF)
+	{
+		length = length + 1;
+	}
+	return length;
+}
+
+void readFileInArray(int length,char *text, FILE *SourceFile)
+{
+	for (int i = 0; i < length; i++)
 	{
 		text[i] = fgetc(SourceFile);
 	}
-	return 0;
 }
 
-int replacement(char *text)
+void replacement(char *text)
 {
 	for (int i = 2; text[i] != '\0'; i++)
 	{
@@ -81,5 +82,12 @@ int replacement(char *text)
 			text[i - 2] = 'с';
 		}
 	}
-	return 0;
+}
+
+void writeFile(FILE *File, int length, char *text) 
+{
+	for (int i = 0; i < length; i++) // запись массива в файл
+	{
+		fprintf(File, "%c", text[i]);
+	}
 }

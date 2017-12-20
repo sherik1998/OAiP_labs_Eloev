@@ -4,16 +4,18 @@
 	Лабораторная № 2
 	Вариант №2
 	Задание: Написать программу, которая вычисляет среднее арифметическое элементов
-массива без учета минимального и максимального элементов массива. Массив и
-его длина вводятся пользователем.
+	массива без учета минимального и максимального элементов массива. Массив и
+	его длина вводятся пользователем.
 */
 #define  _CRT_SECURE_NO_WARNINGS
+
 #include <stdio.h>
+
 #define MAX_LENGTH 100
 #define MIN_LENGTH 3
 
-int check();
-float checkarray();
+int input_checkLength();
+float input_checkArray();
 
 int main()
 {
@@ -22,68 +24,58 @@ int main()
 	float array[MAX_LENGTH];
 	int length = 0;
 	printf("Введите длину массива:");
-	while (length > MAX_LENGTH || length < MIN_LENGTH)
-	{
-		length = check();
-		if (length > MAX_LENGTH || length < MIN_LENGTH)
-		{
-			printf("Ошибка ввода!Длина массива не должна содержать буквы, привышать %d и быть меньше 3!\nПовторите попытку ввода: ", MAX_LENGTH);
-		}
-	}
-
+	length = input_checkLength();
 	for (int i = 0; i < length; i++)
 	{
 		printf("Ввведите значение array[%d]:", i);
-		array[i] = checkarray();
+		array[i] = input_checkArray();
 	}
-	int max = 0;
-	int min = 0;
-	for (int i = 1; i < length; i++)
+	float max = 0;
+	float min = array[0];// присваем минимуму первый элемент массива, чтобы была возможность поиска самого маленького элемента массива
+	for (int i = 0; i < length; i++)
 	{
-		if (array[max] < array[i])
+		if (max < array[i])
 		{
-			max = i;
+			max = array[i];
 		}
 
-		if (array[i] > array[i])
+		if (min > array[i])
 		{
-			min = i;
+			min = array[i];
 		}
 	}
-	array[max] = 0;
-	array[min] = 0;
 	float average;
 	average = 0;
 	for (int i = 0; i < length; i++)
-		average = average + array[i];
-	average = average / (length - 2);
+		average += array[i];
+	average = (average - (min + max)) / (length - 2);
 	printf("Среднее арифметическое значение массива без минимального и максимального значения: %.1f", average);
 	_getch();
 	return 0;
 }
 
-int check()
+int input_checkLength()
 {
-	int number;
-	scanf("%d", &number);
-	if (getchar() != '\n' ) 
+	int length;
+	scanf("%d", &length);
+	if (getchar() != '\n' || length > MAX_LENGTH || length < MIN_LENGTH)
 	{
 		printf("Ошибка ввода!Длина массива не должна содержать буквы, привышать %d и быть меньше 3!\nПовторите попытку ввода: ", MAX_LENGTH);
 		while (getchar() != '\n');
-		number = check();
+		length = input_checkLength();
 	}
-	return number;
+	return length;
 }
 
-float checkarray()
+float input_checkArray()
 {
 	float number;
 	scanf("%f", &number);
-	if (getchar() != '\n') 
+	if (getchar() != '\n')
 	{
 		printf("Ошибка!\nПовторите ввод:");
 		while (getchar() != '\n');
-		number = checkarray();
+		number = input_checkArray();
 	}
 	return number;
 }

@@ -51,7 +51,7 @@ void output(Struct *People, int i);
 void print(Struct *People, int number);
 void new_input(Struct *People, int number);
 int printMenu();
-void inputNewEntry(Struct *People, int number);
+int inputNewEntry(Struct *People, int number);
 int printMenuSearch();
 int compareByField(Struct *People, int field, int i, char *Search);
 void searchByField(Struct *People, int number, int struc, int field);
@@ -81,7 +81,7 @@ void main()
 		main_screen = printMenu();
 		switch (main_screen)
 		{
-		case 1: inputNewEntry(People, number_of_structures); break;
+		case 1: number_of_structures = inputNewEntry(People, number_of_structures); break;
 		case 2: searchMenu(People, search, number_of_structures, struc); break;
 		case 3: outputEntry(People, number_of_structures); break;
 		case 4: sortMenu(People, sorting, number_of_structures); break;
@@ -107,7 +107,7 @@ int printMenu()
 	return menu;
 }
 
-void inputNewEntry(Struct *People, int number)
+int inputNewEntry(Struct *People, int number)
 {
 	printf("--- Дополнить новой записью структуру ---\n");
 	if (number < STRUCTURE_LENGTH)	//проверка 
@@ -121,6 +121,7 @@ void inputNewEntry(Struct *People, int number)
 	{
 		printf("--- Введенно максимально возможное количество структур ---");
 	}
+	return number;
 }
 
 int printMenuSearch()

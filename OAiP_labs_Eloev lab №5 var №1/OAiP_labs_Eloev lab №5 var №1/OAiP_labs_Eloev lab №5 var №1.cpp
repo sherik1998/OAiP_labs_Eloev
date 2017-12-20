@@ -48,11 +48,19 @@ struct Struct
 int initialization(Struct *People);
 void input(Struct *People, int i);
 void output(Struct *People, int i);
-void seek(Struct *People,int i, int struc, char *Search, char *array);
-void sort(Struct *People,int k, int j);
-void print(Struct *People,int number);
-void new_input(Struct *People,int number);
-void ret(Struct *People, int number, int struc, char *Search);
+void print(Struct *People, int number);
+void new_input(Struct *People, int number);
+int printMenu();
+void inputNewEntry(Struct *People, int number);
+int printMenuSearch();
+int compareByField(Struct *People, int field, int i, char *Search);
+void searchByField(Struct *People, int number, int struc, int field);
+void searchMenu(Struct *People, int search, int number, int struc);
+void outputEntry(Struct *People, int number);
+int printMenuSroting();
+int compareByField1(Struct *People, int field, int i);
+void sortByField(Struct *People, int number, int field);
+void sortMenu(Struct *People, int sorting, int number);
 
 void main()
 {
@@ -60,619 +68,87 @@ void main()
 	system("cls");
 	Struct *People = new Struct[STRUCTURE_LENGTH];
 	Struct **q = new Struct*[STRUCTURE_LENGTH];
-	char Search[MAX_LENGTH];
+
 	int main_screen = 0;
 	int number_of_structures = initialization(People);
 	int sorting = 0;
 	int search = 0;
 	int i = 0;
 	int struc = 0;
-	int code; 
-
+	int code;
 	do
 	{
-		printf("---Введите номер---\n");
-		printf("1. Дополнить новой записью структуру.\n");
-		printf("2. Поиск структуры по заданным значениям выбранного элемента.\n");
-		printf("3. Вывод на экран содержимого структур.\n");
-		printf("4. Упорядочение структур по заданному полю.\n");
-		printf("5. Выход из программы.\n");
-		printf("--> ");
-		scanf_s("%d", &main_screen);
-		system("cls");	//очищает экран
-
+		main_screen = printMenu();
 		switch (main_screen)
 		{
-		case 1:
-			printf("--- Дополнить новой записью структуру ---\n");
-			if (number_of_structures < STRUCTURE_LENGTH)	//проверка 
-			{
-				input(People,number_of_structures);
-				number_of_structures++;
-				system("pause");
-				system("cls");
-			}
-			else
-			{
-				printf("--- Введенно максимально возможное количество структур ---");
-			}
-			break;
-		case 2:
-			if (number_of_structures != 0)
-			{
-				printf("---Введите номер---\n");
-				printf("---Поиск структуры по заданным значениям выбранного элемента--- \n");
-				printf("1. Поиск по Фамилии.\n");
-				printf("2. Поиск по Имени.\n");
-				printf("3. Поиск по Полу.\n");
-				printf("4. Поиск по Росту.\n");
-				printf("5. Поиск по Весу.\n");
-				printf("6. Поиск по Числу рождения.\n");
-				printf("7. Поиск по Месяцу рождения.\n");
-				printf("8. Поиск по Году рождения.\n");
-				printf("9. Поиск по Номер телефона.\n");
-				printf("10. Поиск по Индексу.\n");
-				printf("11. Поиск по Стране.\n");
-				printf("12. Поиск по Региону.\n");
-				printf("13. Поиск по Городу.\n");
-				printf("14. Поиск по Улице.\n");
-				printf("15. Поиск по Номеру дома.\n");
-				printf("16. Поиск по Номеру квартиры.\n");
-				printf("--> ");
-
-				scanf_s("%d", &search);
-				system("cls");
-
-				switch (search)
-				{
-				case 1: printf(" --- Поиск по Фамилии --- \n");
-					printf("Введите Фамилию\n -->");
-
-					scanf("%s", &Search);
-					for (i = 0; i < number_of_structures; i++)
-					{
-						seek(People, i, struc, Search, People[i].surname);
-					}
-					if (struc == 0)
-					{
-						printf("Структура не найденна\n");
-					}
-					struc = 0;
-					system("pause");
-					system("cls");
-					//ret(People,number_of_structures, struc, Search);
-					break;
-				case 2:printf(" --- Поиск по Имени --- \n");
-					printf("Введите Имя\n -->");
-
-					scanf("%s", &Search);
-					for (i = 0; i < number_of_structures; i++)
-					{
-						seek(People, i, struc, Search, People[i].name);
-					}
-					if (struc == 0)
-					{
-						printf("Структура не найденна\n");
-					}
-					struc = 0;
-					system("pause");
-					system("cls");
-					break;
-				case 3:printf(" --- Поиск по Полу --- \n");
-					printf("Введите Пол\n -->");
-
-					scanf("%s", &Search);
-					for (i = 0; i < number_of_structures; i++)
-					{
-						seek(People,i, struc, Search, People[i].sex);
-					}
-					if (struc == 0)
-					{
-						printf("Структура не найденна\n");
-					}
-					struc = 0;
-					system("pause");
-					system("cls");
-					break;
-				case 4:printf(" --- Поиск по Росту --- \n");
-					printf("Введите Рост\n -->");
-
-					scanf("%s", &Search);
-					for (i = 0; i < number_of_structures; i++)
-					{
-						seek(People,i, struc, Search, People[i].growth);
-					}
-					if (struc == 0)
-					{
-						printf("Структура не найденна\n");
-					}
-					struc = 0;
-					system("pause");
-					system("cls");
-					break;
-				case 5:printf(" --- Поиск по Весу --- \n");
-					printf("Введите Вес\n -->");
-
-					scanf("%s", &Search);
-					for (i = 0; i < number_of_structures; i++)
-					{
-						seek(People, i, struc, Search, People[i].weight);
-					}
-					if (struc == 0)
-					{
-						printf("Структура не найденна\n");
-					}
-					struc = 0;
-					system("pause");
-					system("cls");
-					break;
-				case 6:printf(" --- Поиск по Числу рождения --- \n");
-					printf("Введите Число\n -->");
-
-					scanf("%s", &Search);
-					for (i = 0; i < number_of_structures; i++)
-					{
-						seek(People, i, struc, Search, People[i].date_number);
-					}
-					if (struc == 0)
-					{
-						printf("Структура не найденна\n");
-					}
-					struc = 0;
-					system("pause");
-					system("cls");
-					break;
-				case 7:printf(" --- Поиск по Месяцу рождения --- \n");
-					printf("Введите Месяц\n -->");
-
-					scanf("%s", &Search);
-					for (i = 0; i < number_of_structures; i++)
-					{
-						seek(People, i, struc, Search, People[i].date_month);
-					}
-					if (struc == 0)
-					{
-						printf("Структура не найденна\n");
-					}
-					struc = 0;
-					system("pause");
-					system("cls");
-					break;
-				case 8:printf(" --- Поиск по Году рождения --- \n");
-					printf("Введите Год\n -->");
-
-					scanf("%s", &Search);
-					for (i = 0; i < number_of_structures; i++)
-					{
-						seek(People, i, struc, Search, People[i].date_year);
-					}
-					if (struc == 0)
-					{
-						printf("Структура не найденна\n");
-					}
-					struc = 0;
-					system("pause");
-					system("cls");
-					break;
-				case 9:printf(" --- Поиск по Номеру телефона --- \n");
-					printf("Введите Номер\n -->");
-
-					scanf("%s", &Search);
-					for (i = 0; i < number_of_structures; i++)
-					{
-						seek(People, i, struc, Search, People[i].phone_number);
-					}
-					if (struc == 0)
-					{
-						printf("Структура не найденна\n");
-					}
-					struc = 0;
-					system("pause");
-					system("cls");
-					break;
-				case 10:printf(" --- Поиск по Индексу --- \n");
-					printf("Введите Индекс\n -->");
-
-					scanf("%s", &Search);
-					for (i = 0; i < number_of_structures; i++)
-					{
-						seek(People, i, struc, Search, People[i].address_index);
-					}
-					if (struc == 0)
-					{
-						printf("Структура не найденна\n");
-					}
-					struc = 0;
-					system("pause");
-					system("cls");
-					break;
-				case 11:printf(" --- Поиск по Стране --- \n");
-					printf("Введите Страну\n -->");
-
-					scanf("%s", &Search);
-					for (i = 0; i < number_of_structures; i++)
-					{
-						seek(People, i, struc, Search, People[i].address_country);
-					}
-					if (struc == 0)
-					{
-						printf("Структура не найденна\n");
-					}
-					struc = 0;
-					system("pause");
-					system("cls");
-					break;
-				case 12:printf(" --- Поиск по Региону --- \n");
-					printf("Введите Регион\n -->");
-
-					scanf("%s", &Search);
-					for (i = 0; i < number_of_structures; i++)
-					{
-						seek(People, i, struc, Search, People[i].address_region);
-					}
-					if (struc == 0)
-					{
-						printf("Структура не найденна\n");
-					}
-					struc = 0;
-					system("pause");
-					system("cls");
-					break;
-				case 13:printf(" --- Поиск по Городу --- \n");
-					printf("Введите Город\n -->");
-
-					scanf("%s", &Search);
-					for (i = 0; i < number_of_structures; i++)
-					{
-						seek(People, i, struc, Search, People[i].address_city);
-					}
-					if (struc == 0)
-					{
-						printf("Структура не найденна\n");
-					}
-					struc = 0;
-					system("pause");
-					system("cls");
-					break;
-				case 14:printf(" --- Поиск по Улице --- \n");
-					printf("Введите Улицу\n -->");
-
-					scanf("%s", &Search);
-					for (i = 0; i < number_of_structures; i++)
-					{
-						seek(People, i, struc, Search, People[i].address_street);
-					}
-					if (struc == 0)
-					{
-						printf("Структура не найденна\n");
-					}
-					struc = 0;
-					system("pause");
-					system("cls");
-					break;
-				case 15:printf(" --- Поиск по Номеру дома --- \n");
-					printf("Введите Дом\n -->");
-
-					scanf("%s", &Search);
-					for (i = 0; i < number_of_structures; i++)
-					{
-						seek(People, i, struc, Search, People[i].address_house);
-					}
-					if (struc == 0)
-					{
-						printf("Структура не найденна\n");
-					}
-					struc = 0;
-					system("pause");
-					system("cls");
-					break;
-				case 16:printf(" --- Поиск по Номеру квартиры --- \n");
-					printf("Введите Квартиру\n -->");
-
-					scanf("%s", &Search);
-					for (i = 0; i < number_of_structures; i++)
-					{
-						seek(People, i, struc, Search, People[i].address_apartment);
-					}
-					if (struc == 0)
-					{
-						printf("Структура не найденна\n");
-					}
-					struc = 0;
-					system("pause");
-					system("cls");
-					break;
-				}
-			}
-			else
-			{
-				printf("--- Заполненных структур нет ---\n");
-				system("pause");
-			}
-			system("cls");
-			break;
-		case 3:
-			printf("---Вывод на экран содержимого структур---\n");
-			if (number_of_structures == 0)	//проверка на наличие заполненных структур
-			{
-				printf("Заполненных структур нет\n");
-			}
-			else
-			{
-				print(People, number_of_structures);
-			}
-			system("pause");
-			system("cls");
-			break;
-		case 4:
-			if (number_of_structures != 0)
-			{
-				printf(" ---Упорядочение структур по заданному полю--- \n");
-				printf("(введите номер)\n");
-				printf("--- Сортировка по заданному полю --- \n");
-				printf("1. Сортировка по Фамилии.\n");
-				printf("2. Сортировка по Имени.\n");
-				printf("3. Сортировка по Полу.\n");
-				printf("4. Сортировка по Росту.\n");
-				printf("5. Сортировка по Весу.\n");
-				printf("6. Сортировка по Числу рождения.\n");
-				printf("7. Сортировка по Месяцу рождения.\n");
-				printf("8. Сортировка по Году рождения.\n");
-				printf("9. Сортировка по Номер телефона.\n");
-				printf("10. Сортировка по Индексу.\n");
-				printf("11. Сортировка по Стране.\n");
-				printf("12. Сортировка по Региону.\n");
-				printf("13. Сортировка по Городу.\n");
-				printf("14. Сортировка по Улице.\n");
-				printf("15. Сортировка по Номеру дома.\n");
-				printf("16. Сортировка по Номеру квартиры.\n");
-				printf("--> ");
-
-				scanf_s("%d", &sorting);
-				system("cls");
-
-				switch (sorting) 
-				{
-				case 1:printf(" --- Сортировка по Фамилии --- \n");
-					for ( i = 0; i < number_of_structures; i++)
-					{
-						for (int j = 0; j < number_of_structures - i - 1; j++)
-						{
-							code = strcmp(People[j].surname, People[j+1].surname); 
-							sort(People, code, j);
-						}
-					}
-					print(People, number_of_structures);
-					new_input(People, number_of_structures);
-					system("pause");
-					system("cls");
-					break;
-				case 2:printf(" --- Сортировка по Имени --- \n");
-					for (i = 0; i < number_of_structures; i++)
-					{
-						for (int j = 0; j < number_of_structures - i - 1; j++)
-						{	
-							code = strcmp(People[j].name, People[j + 1].name);
-							sort(People, code, j);
-						}
-					}
-					print(People, number_of_structures);
-					new_input(People, number_of_structures);
-					system("pause");
-					system("cls");
-					break;
-				case 3:printf(" --- Сортировка по Полу --- \n");
-					for (i = 0; i < number_of_structures; i++)
-					{
-						for (int j = 0; j < number_of_structures - i - 1; j++)
-						{
-							code = strcmp(People[j].sex, People[j + 1].sex);
-							sort(People, code, j);
-						}
-					}
-					print(People, number_of_structures);
-					new_input(People, number_of_structures);
-					system("pause");
-					system("cls");
-					break;
-				case 4:printf(" --- Сортировка по Росту --- \n");
-					for (i = 0; i < number_of_structures; i++)
-					{
-						for (int j = 0; j < number_of_structures - i - 1; j++)
-						{
-							code = strcmp(People[j].growth, People[j + 1].growth); 
-							sort(People, code, j);
-						}
-					}
-					print(People, number_of_structures);
-					new_input(People, number_of_structures);
-					system("pause");
-					system("cls");
-					break;
-				case 5:printf(" --- Сортировка по Весу --- \n");
-					for (i = 0; i < number_of_structures; i++)
-					{
-						for (int j = 0; j < number_of_structures - i - 1; j++)
-						{
-							code = strcmp(People[j].weight, People[j + 1].weight);
-							sort(People, code, j);
-						}
-					}
-					print(People, number_of_structures);
-					new_input(People, number_of_structures);
-					system("pause");
-					system("cls");
-					break;
-				case 6:printf(" --- Сортировка по Числу рождения --- \n");
-					for (i = 0; i < number_of_structures; i++)
-					{
-						for (int j = 0; j < number_of_structures - i - 1; j++)
-						{
-							code = strcmp(People[j].date_number, People[j + 1].date_number); 
-							sort(People, code, j);
-						}
-					}
-					print(People, number_of_structures);
-					new_input(People, number_of_structures);
-					system("pause");
-					system("cls");
-					break;
-				case 7:printf(" --- Сортировка по Месяцу рождения --- \n");
-					for (i = 0; i < number_of_structures; i++)
-					{
-						for (int j = 0; j < number_of_structures - i - 1; j++)
-						{
-							code = strcmp(People[j].date_month, People[j + 1].date_month);
-							sort(People, code, j);
-						}
-					}
-					print(People, number_of_structures);
-					new_input(People, number_of_structures);
-					system("pause");
-					system("cls");
-					break;
-				case 8:printf(" --- Сортировка по Году рождения --- \n");
-					for (i = 0; i < number_of_structures; i++)
-					{
-						for (int j = 0; j < number_of_structures - i - 1; j++)
-						{
-							code = strcmp(People[j].date_year, People[j + 1].date_year);
-							sort(People, code, j);
-						}
-					}
-					print(People, number_of_structures);
-					new_input(People, number_of_structures);
-					system("pause");
-					system("cls");
-					break;
-				case 9:printf(" --- Сортировка по Номеру телефона --- \n");
-					for (i = 0; i < number_of_structures; i++)
-					{
-						for (int j = 0; j < number_of_structures - i - 1; j++)
-						{
-							code = strcmp(People[j].phone_number, People[j + 1].phone_number);
-							sort(People, code, j);
-						}
-					}
-					print(People, number_of_structures);
-					new_input(People, number_of_structures);
-					system("pause");
-					system("cls");
-					break;
-				case 10:printf(" --- Сортировка по Индексу --- \n");
-					for (i = 0; i < number_of_structures; i++)
-					{
-						for (int j = 0; j < number_of_structures - i - 1; j++)
-						{
-							code = strcmp(People[j].address_index, People[j + 1].address_index);
-							sort(People, code, j);
-						}
-					}
-					print(People, number_of_structures);
-					new_input(People, number_of_structures);
-					system("pause");
-					system("cls");
-					break;
-				case 11:printf(" --- Сортировка по Странам --- \n");
-					for (i = 0; i < number_of_structures; i++)
-					{
-						for (int j = 0; j < number_of_structures - i - 1; j++)
-						{
-							code = strcmp(People[j].address_country, People[j + 1].address_country);
-							sort(People, code, j);
-						}
-					}
-					print(People, number_of_structures);
-					new_input(People, number_of_structures);
-					system("pause");
-					system("cls");
-					break;
-				case 12:printf(" --- Сортировка по Регионам --- \n");
-					for (i = 0; i < number_of_structures; i++)
-					{
-						for (int j = 0; j < number_of_structures - i - 1; j++)
-						{
-							code = strcmp(People[j].address_region, People[j + 1].address_region); 
-							sort(People, code, j);
-						}
-					}
-					print(People, number_of_structures);
-					new_input(People, number_of_structures);
-					system("pause");
-					system("cls");
-					break;
-				case 13:printf(" --- Сортировка по Городам --- \n");
-					for (i = 0; i < number_of_structures; i++)
-					{
-						for (int j = 0; j < number_of_structures - i - 1; j++)
-						{
-							code = strcmp(People[j].address_city, People[j + 1].address_city);
-							sort(People, code, j);
-						}
-					}
-					print(People, number_of_structures);
-					new_input(People, number_of_structures);
-					system("pause");
-					system("cls");
-					break;
-				case 14:printf(" --- Сортировка по Улицам --- \n");
-					for (i = 0; i < number_of_structures; i++)
-					{
-						for (int j = 0; j < number_of_structures - i - 1; j++)
-						{
-							code = strcmp(People[j].address_street, People[j + 1].address_street); 
-							sort(People, code, j);
-						}
-					}
-					print(People, number_of_structures);
-					new_input(People, number_of_structures);
-					system("pause");
-					system("cls");
-					break;
-				case 15:printf(" --- Сортировка по Номерам домов --- \n");
-					for (i = 0; i < number_of_structures; i++)
-					{
-						for (int j = 0; j < number_of_structures - i - 1; j++)
-						{
-							code = strcmp(People[j].address_house, People[j + 1].address_house); 
-							sort(People, code, j);
-						}
-					}
-					print(People, number_of_structures);
-					new_input(People, number_of_structures);
-					system("pause");
-					system("cls");
-					break;
-				case 16:printf(" --- Сортировка по Номерам квартир --- \n");
-					for (i = 0; i < number_of_structures; i++)
-					{
-						for (int j = 0; j < number_of_structures - i - 1; j++)
-						{
-							code = strcmp(People[j].address_apartment, People[j + 1].address_apartment); 
-							sort(People, code, j);
-						}
-					}
-					print(People, number_of_structures);
-					new_input(People, number_of_structures);
-					system("pause");
-					system("cls");
-					break;
-				}
-			}
-			else
-			{
-				printf("--- Заполненных структур нет ---\n");
-				system("pause");
-			}
-			system("cls");
-			break;
-		case 5:
-			exit(0);	//выход и программы
-			break;
-		default: printf("Такого выбора нет.");
+		case 1: inputNewEntry(People, number_of_structures); break;
+		case 2: searchMenu(People, search, number_of_structures, struc); break;
+		case 3: outputEntry(People, number_of_structures); break;
+		case 4: sortMenu(People, sorting, number_of_structures); break;
+		case 5: exit(0);	//выход и программы break;
+		default: printf("Такого варианта выбора нет.\n");
 		}
 	} while (true);
 	system("pause");
+}
+
+int printMenu()
+{
+	int menu;
+	printf("---Введите номер---\n");
+	printf("1. Дополнить новой записью структуру.\n");
+	printf("2. Поиск структуры по заданным значениям выбранного элемента.\n");
+	printf("3. Вывод на экран содержимого структур.\n");
+	printf("4. Упорядочение структур по заданному полю.\n");
+	printf("5. Выход из программы.\n");
+	printf("--> ");
+	scanf_s("%d", &menu);
+	system("cls");
+	return menu;
+}
+
+void inputNewEntry(Struct *People, int number)
+{
+	printf("--- Дополнить новой записью структуру ---\n");
+	if (number < STRUCTURE_LENGTH)	//проверка 
+	{
+		input(People, number);
+		number++;
+		system("pause");
+		system("cls");
+	}
+	else
+	{
+		printf("--- Введенно максимально возможное количество структур ---");
+	}
+}
+
+int printMenuSearch()
+{
+	int sear;
+	printf("---Введите номер---\n");
+	printf("---Поиск структуры по заданным значениям выбранного элемента--- \n");
+	printf("1. Поиск по Фамилии.\n");
+	printf("2. Поиск по Имени.\n");
+	printf("3. Поиск по Полу.\n");
+	printf("4. Поиск по Росту.\n");
+	printf("5. Поиск по Весу.\n");
+	printf("6. Поиск по Числу рождения.\n");
+	printf("7. Поиск по Месяцу рождения.\n");
+	printf("8. Поиск по Году рождения.\n");
+	printf("9. Поиск по Номер телефона.\n");
+	printf("10. Поиск по Индексу.\n");
+	printf("11. Поиск по Стране.\n");
+	printf("12. Поиск по Региону.\n");
+	printf("13. Поиск по Городу.\n");
+	printf("14. Поиск по Улице.\n");
+	printf("15. Поиск по Номеру дома.\n");
+	printf("16. Поиск по Номеру квартиры.\n");
+	printf("--> ");
+
+	scanf_s("%d", &sear);
+	system("cls");
+	return sear;
 }
 
 int initialization(Struct *People)
@@ -682,16 +158,16 @@ int initialization(Struct *People)
 	int i = 0;
 	if (File != NULL)
 	{
-		while (fscanf(File, "%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s", &People[i].surname, &People[i].name, &People[i].sex, &People[i].growth, &People[i].weight, &People[i].date_number, &People[i].date_month, &People[i].date_year, &People[i].phone_number, &People[i].address_index, &People[i].address_country, &People[i].address_region, &People[i].address_city, &People[i].address_street, &People[i].address_house, &People[i].address_apartment)!=EOF)
+		while (fscanf(File, "%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s", &People[i].surname, &People[i].name, &People[i].sex, &People[i].growth, &People[i].weight, &People[i].date_number, &People[i].date_month, &People[i].date_year, &People[i].phone_number, &People[i].address_index, &People[i].address_country, &People[i].address_region, &People[i].address_city, &People[i].address_street, &People[i].address_house, &People[i].address_apartment) != EOF)
 		{
 			fscanf(File1, "%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s", &People[i].surname, &People[i].name, &People[i].sex, &People[i].growth, &People[i].weight, &People[i].date_number, &People[i].date_month, &People[i].date_year, &People[i].phone_number, &People[i].address_index, &People[i].address_country, &People[i].address_region, &People[i].address_city, &People[i].address_street, &People[i].address_house, &People[i].address_apartment);
 			i++;
 		}
-		
+
 	}
 	else
 	{
-		printf("---Файла нет или не открылся---");
+		printf("---Файла нет или не открылся---\n");
 		system("pause");
 		exit(0);
 	}
@@ -758,31 +234,11 @@ void output(Struct *People, int i)
 	printf("Адрес:  ул.%s  дом №%s кв.№%s\n\n", &People[i].address_street, &People[i].address_house, &People[i].address_apartment);
 }
 
-void seek(Struct *People, int i, int struc, char *Search, char * array)
-{
-	if (strcmp(Search, array) == 0)
-	{
-		struc++;
-		printf("Струра найденна\n Номер структуры -> %d\n", i + 1);
-		output(People,i);
-	}
-}
-
-void sort(Struct *People, int k, int j)
-{
-	if (k > 0)
-	{
-		Struct Buff = People[j];
-		People[j] = People[j + 1];
-		People[j + 1] = Buff;
-	}
-}
-
 void print(Struct *People, int number)
 {
 	for (int i = 0; i < number; i++)
 	{
-		output(People,i);
+		output(People, i);
 	}
 }
 
@@ -791,22 +247,41 @@ void new_input(Struct *People, int number)
 	FILE *File = fopen("Sort.txt", "w");
 	for (int i = 0; i < number; i++)
 	{
-	fprintf(File, "%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n", &People[i].surname, &People[i].name, &People[i].sex, &People[i].growth, &People[i].weight, &People[i].date_number, &People[i].date_month, &People[i].date_year, &People[i].phone_number, &People[i].address_index, &People[i].address_country, &People[i].address_region, &People[i].address_city, &People[i].address_street, &People[i].address_house, &People[i].address_apartment);
+		fprintf(File, "%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n", &People[i].surname, &People[i].name, &People[i].sex, &People[i].growth, &People[i].weight, &People[i].date_number, &People[i].date_month, &People[i].date_year, &People[i].phone_number, &People[i].address_index, &People[i].address_country, &People[i].address_region, &People[i].address_city, &People[i].address_street, &People[i].address_house, &People[i].address_apartment);
 	}
 	fclose(File);
 }
 
-void ret(Struct *People, int number, int struc, char *Search)
+int compareByField(Struct *People, int field, int i, char *Search)
 {
-	/*Struct **q = new Struct*[STRUCTURE_LENGTH];
-	for (int i = 0; i < number; i++)
-	{
-		q[i] = &People[i];
-	}*/
+	int code;
+	switch (field) {
+	case 1:code = strcmp(Search, People[i].surname); return code;
+	case 2:code = strcmp(Search, People[i].name); return code;
+	case 3:code = strcmp(Search, People[i].sex); return code;
+	case 4:code = strcmp(Search, People[i].growth); return code;
+	case 5:code = strcmp(Search, People[i].weight); return code;
+	case 6:code = strcmp(Search, People[i].date_number); return code;
+	case 7:code = strcmp(Search, People[i].date_month); return code;
+	case 8:code = strcmp(Search, People[i].date_year); return code;
+	case 9:code = strcmp(Search, People[i].phone_number); return code;
+	case 10:code = strcmp(Search, People[i].address_index); return code;
+	case 11:code = strcmp(Search, People[i].address_country); return code;
+	case 12:code = strcmp(Search, People[i].address_region); return code;
+	case 13:code = strcmp(Search, People[i].address_city); return code;
+	case 14:code = strcmp(Search, People[i].address_street); return code;
+	case 15:code = strcmp(Search, People[i].address_house); return code;
+	case 16:code = strcmp(Search, People[i].address_apartment); return code;
+	}
+}
+
+void searchByField(Struct *People, int number, int struc, int field)
+{
+	char Search[MAX_LENGTH];
 	scanf("%s", &Search);
 	for (int i = 0; i < number; i++)
 	{
-		if (strcmp(Search, People[i].name) == 0)
+		if ((compareByField(People, field, i, Search)) == 0)
 		{
 			struc++;
 			printf("Струра найденна\n Номер структуры -> %d\n", i + 1);
@@ -820,4 +295,223 @@ void ret(Struct *People, int number, int struc, char *Search)
 	struc = 0;
 	system("pause");
 	system("cls");
-};
+}
+
+void searchMenu(Struct *People, int search, int number, int struc)
+{
+	if (number != 0)
+	{
+		search = printMenuSearch();
+		switch (search)
+		{
+		case 1: printf(" --- Поиск по Фамилии --- \nВведите Фамилию\n -->");
+			searchByField(People, number, struc, search);
+			break;
+		case 2:printf(" --- Поиск по Имени --- \nВведите Имя\n -->");
+			searchByField(People, number, struc, search);
+			break;
+		case 3:printf(" --- Поиск по Полу --- \nВведите Пол\n -->");
+			searchByField(People, number, struc, search);
+			break;
+		case 4:printf(" --- Поиск по Росту --- \nВведите Рост\n -->");
+			searchByField(People, number, struc, search);
+			break;
+		case 5:printf(" --- Поиск по Весу --- \nВведите Вес\n -->");
+			searchByField(People, number, struc, search);
+			break;
+		case 6:printf(" --- Поиск по Числу рождения --- \nВведите Число\n -->");
+			searchByField(People, number, struc, search);
+			break;
+		case 7:printf(" --- Поиск по Месяцу рождения --- \nВведите Месяц\n -->");
+			searchByField(People, number, struc, search);
+			break;
+		case 8:printf(" --- Поиск по Году рождения --- \nВведите Год\n -->");
+			searchByField(People, number, struc, search);
+			break;
+		case 9:printf(" --- Поиск по Номеру телефона --- \nВведите Номер\n -->");
+			searchByField(People, number, struc, search);
+			break;
+		case 10:printf(" --- Поиск по Индексу --- \nВведите Индекс\n -->");
+			searchByField(People, number, struc, search);
+			break;
+		case 11:printf(" --- Поиск по Стране --- \nВведите Страну\n -->");
+			searchByField(People, number, struc, search);
+			break;
+		case 12:printf(" --- Поиск по Региону --- \nВведите Регион\n -->");
+			searchByField(People, number, struc, search);
+			break;
+		case 13:printf(" --- Поиск по Городу --- \nВведите Город\n -->");
+			searchByField(People, number, struc, search);
+			break;
+		case 14:printf(" --- Поиск по Улице --- \nВведите Улицу\n -->");
+			searchByField(People, number, struc, search);
+			break;
+		case 15:printf(" --- Поиск по Номеру дома --- \nВведите Дом\n -->");
+			searchByField(People, number, struc, search);
+			break;
+		case 16:printf(" --- Поиск по Номеру квартиры --- \nВведите Квартиру\n -->");
+			searchByField(People, number, struc, search);
+			break;
+		default: printf("Такого варианта выбора нет.\n"); system("pause");
+		}
+	}
+	else
+	{
+		printf("--- Заполненных структур нет ---\n");
+		system("pause");
+	}
+	system("cls");
+}
+
+void outputEntry(Struct *People, int number)
+{
+	printf("---Вывод на экран содержимого структур---\n");
+	if (number == 0)
+	{
+		printf("Заполненных структур нет\n");
+	}
+	else
+	{
+		print(People, number);
+	}
+	system("pause");
+	system("cls");
+}
+
+int printMenuSroting()
+{
+	int sorting;
+	printf(" ---Упорядочение структур по заданному полю--- \n");
+	printf("(введите номер)\n");
+	printf("--- Сортировка по заданному полю --- \n");
+	printf("1. Сортировка по Фамилии.\n");
+	printf("2. Сортировка по Имени.\n");
+	printf("3. Сортировка по Полу.\n");
+	printf("4. Сортировка по Росту.\n");
+	printf("5. Сортировка по Весу.\n");
+	printf("6. Сортировка по Числу рождения.\n");
+	printf("7. Сортировка по Месяцу рождения.\n");
+	printf("8. Сортировка по Году рождения.\n");
+	printf("9. Сортировка по Номер телефона.\n");
+	printf("10. Сортировка по Индексу.\n");
+	printf("11. Сортировка по Стране.\n");
+	printf("12. Сортировка по Региону.\n");
+	printf("13. Сортировка по Городу.\n");
+	printf("14. Сортировка по Улице.\n");
+	printf("15. Сортировка по Номеру дома.\n");
+	printf("16. Сортировка по Номеру квартиры.\n");
+	printf("--> ");
+
+	scanf_s("%d", &sorting);
+	system("cls");
+	return sorting;
+}
+
+int compareByField1(Struct *People, int field, int i)
+{
+	int code;
+	switch (field) {
+	case 1:code = strcmp(People[i + 1].surname, People[i].surname); return code;
+	case 2:code = strcmp(People[i + 1].name, People[i].name); return code;
+	case 3:code = strcmp(People[i + 1].sex, People[i].sex); return code;
+	case 4:code = strcmp(People[i + 1].growth, People[i].growth); return code;
+	case 5:code = strcmp(People[i + 1].weight, People[i].weight); return code;
+	case 6:code = strcmp(People[i + 1].date_number, People[i].date_number); return code;
+	case 7:code = strcmp(People[i + 1].date_month, People[i].date_month); return code;
+	case 8:code = strcmp(People[i + 1].date_year, People[i].date_year); return code;
+	case 9:code = strcmp(People[i + 1].phone_number, People[i].phone_number); return code;
+	case 10:code = strcmp(People[i + 1].address_index, People[i].address_index); return code;
+	case 11:code = strcmp(People[i + 1].address_country, People[i].address_country); return code;
+	case 12:code = strcmp(People[i + 1].address_region, People[i].address_region); return code;
+	case 13:code = strcmp(People[i + 1].address_city, People[i].address_city); return code;
+	case 14:code = strcmp(People[i + 1].address_street, People[i].address_street); return code;
+	case 15:code = strcmp(People[i + 1].address_house, People[i].address_house); return code;
+	case 16:code = strcmp(People[i + 1].address_apartment, People[i].address_apartment); return code;
+	}
+}
+
+void  sortByField(Struct *People, int number, int field)
+{
+	for (int i = 0; i < number; i++)
+	{
+		for (int j = 0; j < number - i - 1; j++)
+		{
+			if ((compareByField1(People, field, j)) < 0)
+			{
+				Struct Buff = People[j];
+				People[j] = People[j + 1];
+				People[j + 1] = Buff;
+			}
+		}
+	}
+	print(People, number);
+	new_input(People, number);
+	system("pause");
+	system("cls");
+}
+
+void sortMenu(Struct *People, int sorting, int number)
+{
+	if (number != 0)
+	{
+		sorting = printMenuSroting();
+		switch (sorting)
+		{
+		case 1:printf(" --- Сортировка по Фамилии --- \n");
+			sortByField(People, number, sorting);
+			break;
+		case 2:printf(" --- Сортировка по Имени --- \n");
+			sortByField(People, number, sorting);
+			break;
+		case 3:printf(" --- Сортировка по Полу --- \n");
+			sortByField(People, number, sorting);
+			break;
+		case 4:printf(" --- Сортировка по Росту --- \n");
+			sortByField(People, number, sorting);
+			break;
+		case 5:printf(" --- Сортировка по Весу --- \n");
+			sortByField(People, number, sorting);
+			break;
+		case 6:printf(" --- Сортировка по Числу рождения --- \n");
+			sortByField(People, number, sorting);
+			break;
+		case 7:printf(" --- Сортировка по Месяцу рождения --- \n");
+			sortByField(People, number, sorting);
+			break;
+		case 8:printf(" --- Сортировка по Году рождения --- \n");
+			sortByField(People, number, sorting);
+			break;
+		case 9:printf(" --- Сортировка по Номеру телефона --- \n");
+			sortByField(People, number, sorting);
+			break;
+		case 10:printf(" --- Сортировка по Индексу --- \n");
+			sortByField(People, number, sorting);
+			break;
+		case 11:printf(" --- Сортировка по Странам --- \n");
+			sortByField(People, number, sorting);
+			break;
+		case 12:printf(" --- Сортировка по Регионам --- \n");
+			sortByField(People, number, sorting);
+			break;
+		case 13:printf(" --- Сортировка по Городам --- \n");
+			sortByField(People, number, sorting);
+			break;
+		case 14:printf(" --- Сортировка по Улицам --- \n");
+			sortByField(People, number, sorting);
+			break;
+		case 15:printf(" --- Сортировка по Номерам домов --- \n");
+			sortByField(People, number, sorting);
+			break;
+		case 16:printf(" --- Сортировка по Номерам квартир --- \n");
+			sortByField(People, number, sorting);
+			break;
+		default: printf("Такого варианта выбора нет.\n"); system("pause");
+		}
+	}
+	else
+	{
+		printf("--- Заполненных структур нет ---\n");
+		system("pause");
+	}
+	system("cls");
+}

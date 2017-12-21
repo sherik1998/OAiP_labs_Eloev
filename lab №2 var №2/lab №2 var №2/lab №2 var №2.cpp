@@ -14,21 +14,20 @@
 #define MAX_LENGTH 100
 #define MIN_LENGTH 3
 
-int input_checkLength();
-float input_checkArray();
+int inputСorrectLength();
+float inputСorrectArray();
 
 int main()
 {
 	system("chcp 1251");
 	system("cls");
 	float array[MAX_LENGTH];
-	int length = 0;
 	printf("Введите длину массива:");
-	length = input_checkLength();
+	int length = inputСorrectLength();
 	for (int i = 0; i < length; i++)
 	{
 		printf("Ввведите значение array[%d]:", i);
-		array[i] = input_checkArray();
+		array[i] = inputСorrectArray();
 	}
 	float max = 0;
 	float min = array[0];// присваем минимуму первый элемент массива, чтобы была возможность поиска самого маленького элемента массива
@@ -45,16 +44,19 @@ int main()
 		}
 	}
 	float average;
-	average = 0;
-	for (int i = 0; i < length; i++)
-		average += array[i];
-	average = (average - (min + max)) / (length - 2);
+	float sum = 0;
+	for (int i = 0; i < length; i++) 
+	{
+		sum += array[i];
+	}
+	sum -= max + min;
+	average = (sum) / (length - 2);
 	printf("Среднее арифметическое значение массива без минимального и максимального значения: %.1f", average);
 	_getch();
 	return 0;
 }
 
-int input_checkLength()
+int inputСorrectLength()
 {
 	int length;
 	scanf("%d", &length);
@@ -62,12 +64,12 @@ int input_checkLength()
 	{
 		printf("Ошибка ввода!Длина массива не должна содержать буквы, привышать %d и быть меньше 3!\nПовторите попытку ввода: ", MAX_LENGTH);
 		while (getchar() != '\n');
-		length = input_checkLength();
+		length = inputСorrectLength();
 	}
 	return length;
 }
 
-float input_checkArray()
+float inputСorrectArray()
 {
 	float number;
 	scanf("%f", &number);
@@ -75,7 +77,7 @@ float input_checkArray()
 	{
 		printf("Ошибка!\nПовторите ввод:");
 		while (getchar() != '\n');
-		number = input_checkArray();
+		number = inputСorrectArray();
 	}
 	return number;
 }

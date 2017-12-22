@@ -3,12 +3,15 @@
 #include <string.h>
 #include <fstream>
 #include <conio.h>
+#include <locale>
+#include <stdio.h>
 
 char* p_iniFile = "param.ini";
 char* p_clientsFile = "clients.txt";
 char* p_serviceFile = "service.txt";
 char* p_billFile = "bill.txt";
 char* p_oFile = "report.txt";
+
 
 int cSize = 0;
 int sSize = 0;
@@ -27,10 +30,10 @@ struct clients
 
 struct service
 {
-	char* p_servName = (char*)(malloc(sizeof(char) * 254));;
+	char* p_servName = (char*)(malloc(sizeof(char) * 254));
 	int code;
 	float cost;
-	char* p_Mera = (char*)(malloc(sizeof(char) * 254));;
+	char* p_Mera = (char*)(malloc(sizeof(char) * 254));
 };
 
 struct bill
@@ -58,6 +61,8 @@ int getSize(char* loc)
 	return _size;
 }
 
+
+
 clients* ClientBase()
 {
 	cSize = getSize(p_clientsFile);
@@ -68,6 +73,7 @@ clients* ClientBase()
 		int inc = 0;
 		while (!feof(clntFile))
 		{
+
 			char* buff = (char*)(malloc(sizeof(char) * 1024));
 			fgets(buff, 1024, clntFile);
 			if (strcmp(buff, "\n"))

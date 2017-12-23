@@ -1,9 +1,9 @@
 /*
-Елоев Георгий Александрович
-Лабораторная работа №3
-Вариант №1
-Задание: Написать программу, которая во вводимом с клавиатуры тексте
-заменит все окончания слов «ть» на «ся» и выведет результат на экран.
+	Елоев Георгий Александрович
+	Лабораторная работа №3
+	Вариант №1
+	Задание: Написать программу, которая во вводимом с клавиатуры тексте
+	заменит все окончания слов «ть» на «ся» и выведет результат на экран.
 */
 
   
@@ -15,7 +15,7 @@
 #define MAX_LENGTH 1024
 #define SYMBOL '!',' ',';','.',',','?',':','-',')','}',']','"'
 
-int replacement(char *text);
+int editText(char *text);
 
 int main()
 {
@@ -24,14 +24,14 @@ int main()
 	char text[MAX_LENGTH];
 	printf("\tВведите ваш текст:\n");
 	fgets(text, MAX_LENGTH, stdin);
-	replacement(text);
+	editText(text);
 	printf("\tИзменённый текст:\n");
-	printf("%s", text);
+	puts(text);
 	_getch();
 	return 0;
 }
 
-int replacement(char *text)
+int editText(char *text)
 {
 	for (int i = 2; text[i] != '\0'; i++)
 	{

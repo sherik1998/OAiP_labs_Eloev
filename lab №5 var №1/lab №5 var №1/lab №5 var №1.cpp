@@ -58,7 +58,7 @@ void searchByField(Struct *People, int number, int struc, int field);
 void searchMenu(Struct *People, int search, int number, int struc);
 void outputEntry(Struct *People, int number);
 int printMenuSroting();
-int compareByField1(Struct *People, int field, int i);
+int compareByFieldSort(Struct *People, int field, int i);
 void sortByField(Struct *People, int number, int field);
 void sortMenu(Struct *People, int sorting, int number);
 
@@ -303,57 +303,14 @@ void searchMenu(Struct *People, int search, int number, int struc)
 	if (number != 0)
 	{
 		search = printMenuSearch();
-		switch (search)
+		if (search >= 1 && search <= 16)
 		{
-		case 1: printf(" --- Поиск по Фамилии --- \nВведите Фамилию\n -->");
+			printf("Введите поле: ");
 			searchByField(People, number, struc, search);
-			break;
-		case 2:printf(" --- Поиск по Имени --- \nВведите Имя\n -->");
-			searchByField(People, number, struc, search);
-			break;
-		case 3:printf(" --- Поиск по Полу --- \nВведите Пол\n -->");
-			searchByField(People, number, struc, search);
-			break;
-		case 4:printf(" --- Поиск по Росту --- \nВведите Рост\n -->");
-			searchByField(People, number, struc, search);
-			break;
-		case 5:printf(" --- Поиск по Весу --- \nВведите Вес\n -->");
-			searchByField(People, number, struc, search);
-			break;
-		case 6:printf(" --- Поиск по Числу рождения --- \nВведите Число\n -->");
-			searchByField(People, number, struc, search);
-			break;
-		case 7:printf(" --- Поиск по Месяцу рождения --- \nВведите Месяц\n -->");
-			searchByField(People, number, struc, search);
-			break;
-		case 8:printf(" --- Поиск по Году рождения --- \nВведите Год\n -->");
-			searchByField(People, number, struc, search);
-			break;
-		case 9:printf(" --- Поиск по Номеру телефона --- \nВведите Номер\n -->");
-			searchByField(People, number, struc, search);
-			break;
-		case 10:printf(" --- Поиск по Индексу --- \nВведите Индекс\n -->");
-			searchByField(People, number, struc, search);
-			break;
-		case 11:printf(" --- Поиск по Стране --- \nВведите Страну\n -->");
-			searchByField(People, number, struc, search);
-			break;
-		case 12:printf(" --- Поиск по Региону --- \nВведите Регион\n -->");
-			searchByField(People, number, struc, search);
-			break;
-		case 13:printf(" --- Поиск по Городу --- \nВведите Город\n -->");
-			searchByField(People, number, struc, search);
-			break;
-		case 14:printf(" --- Поиск по Улице --- \nВведите Улицу\n -->");
-			searchByField(People, number, struc, search);
-			break;
-		case 15:printf(" --- Поиск по Номеру дома --- \nВведите Дом\n -->");
-			searchByField(People, number, struc, search);
-			break;
-		case 16:printf(" --- Поиск по Номеру квартиры --- \nВведите Квартиру\n -->");
-			searchByField(People, number, struc, search);
-			break;
-		default: printf("Такого варианта выбора нет.\n"); system("pause");
+		}
+		else
+		{
+			printf("Такого варианта выбора нет.\n");
 		}
 	}
 	else
@@ -408,7 +365,7 @@ int printMenuSroting()
 	return sorting;
 }
 
-int compareByField1(Struct *People, int field, int i)
+int compareByFieldSort(Struct *People, int field, int i)
 {
 	int code;
 	switch (field) {
@@ -437,7 +394,7 @@ void  sortByField(Struct *People, int number, int field)
 	{
 		for (int j = 0; j < number - i - 1; j++)
 		{
-			if ((compareByField1(People, field, j)) < 0)
+			if ((compareByFieldSort(People, field, j)) < 0)
 			{
 				Struct Buff = People[j];
 				People[j] = People[j + 1];
@@ -456,57 +413,13 @@ void sortMenu(Struct *People, int sorting, int number)
 	if (number != 0)
 	{
 		sorting = printMenuSroting();
-		switch (sorting)
+		if (sorting >= 1 && sorting <= 16)
 		{
-		case 1:printf(" --- Сортировка по Фамилии --- \n");
 			sortByField(People, number, sorting);
-			break;
-		case 2:printf(" --- Сортировка по Имени --- \n");
-			sortByField(People, number, sorting);
-			break;
-		case 3:printf(" --- Сортировка по Полу --- \n");
-			sortByField(People, number, sorting);
-			break;
-		case 4:printf(" --- Сортировка по Росту --- \n");
-			sortByField(People, number, sorting);
-			break;
-		case 5:printf(" --- Сортировка по Весу --- \n");
-			sortByField(People, number, sorting);
-			break;
-		case 6:printf(" --- Сортировка по Числу рождения --- \n");
-			sortByField(People, number, sorting);
-			break;
-		case 7:printf(" --- Сортировка по Месяцу рождения --- \n");
-			sortByField(People, number, sorting);
-			break;
-		case 8:printf(" --- Сортировка по Году рождения --- \n");
-			sortByField(People, number, sorting);
-			break;
-		case 9:printf(" --- Сортировка по Номеру телефона --- \n");
-			sortByField(People, number, sorting);
-			break;
-		case 10:printf(" --- Сортировка по Индексу --- \n");
-			sortByField(People, number, sorting);
-			break;
-		case 11:printf(" --- Сортировка по Странам --- \n");
-			sortByField(People, number, sorting);
-			break;
-		case 12:printf(" --- Сортировка по Регионам --- \n");
-			sortByField(People, number, sorting);
-			break;
-		case 13:printf(" --- Сортировка по Городам --- \n");
-			sortByField(People, number, sorting);
-			break;
-		case 14:printf(" --- Сортировка по Улицам --- \n");
-			sortByField(People, number, sorting);
-			break;
-		case 15:printf(" --- Сортировка по Номерам домов --- \n");
-			sortByField(People, number, sorting);
-			break;
-		case 16:printf(" --- Сортировка по Номерам квартир --- \n");
-			sortByField(People, number, sorting);
-			break;
-		default: printf("Такого варианта выбора нет.\n"); system("pause");
+		}
+		else
+		{
+			printf("Такого варианта выбора нет.\n");
 		}
 	}
 	else

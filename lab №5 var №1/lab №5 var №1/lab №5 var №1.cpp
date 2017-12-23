@@ -67,8 +67,6 @@ void main()
 	system("chcp 1251");
 	system("cls");
 	Struct *People = new Struct[STRUCTURE_LENGTH];
-	Struct **q = new Struct*[STRUCTURE_LENGTH];
-
 	int main_screen = 0;
 	int number_of_structures = initialization(People);
 	int sorting = 0;

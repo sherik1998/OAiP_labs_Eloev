@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS
+Ôªø#define _CRT_SECURE_NO_WARNINGS
 
 #include <string.h>
 #include <fstream>
@@ -6,52 +6,76 @@
 #include <locale>
 #include <stdio.h>
 
-char* p_iniFile = "param.ini";
-char* p_clientsFile = "clients.txt";
-char* p_serviceFile = "service.txt";
-char* p_billFile = "bill.txt";
-char* p_oFile = "report.txt";
+#define LENGTH 512
+
+char* iniFile = "param.ini";
+char* clientsFile = "clients.txt";
+char* serviceFile = "service.txt";
+char* billFile = "bill.txt";
+char* reportFile = "report.txt";
 
 
-int cSize = 0;
-int sSize = 0;
-int bSize = 0;
-int kSize = 0;
+int clientsSize = 0;
+int serviceSize = 0;
+int billSize = 0;
+int keysSize = 0;
 
 struct clients
 {
-	char* p_FIO = (char*)(malloc(sizeof(char) * 254));
-	char* p_Number = (char*)(malloc(sizeof(char) * 254));
-	char* p_fDate = (char*)(malloc(sizeof(char) * 254));
-	char* p_lDate = (char*)(malloc(sizeof(char) * 254));
+	char* FIO = (char*)(malloc(sizeof(char) * LENGTH));
+	char* phonenumber = (char*)(malloc(sizeof(char) * LENGTH));
+	char* contractdate = (char*)(malloc(sizeof(char) * LENGTH));
+	char* endcontractdate = (char*)(malloc(sizeof(char) * LENGTH));
 	float debt;
 	float credit;
 };
 
 struct service
 {
-	char* p_servName = (char*)(malloc(sizeof(char) * 254));
+	char* p_servName = (char*)(malloc(sizeof(char) * LENGTH));
 	int code;
 	float cost;
-	char* p_Mera = (char*)(malloc(sizeof(char) * 254));
+	char* p_Mera = (char*)(malloc(sizeof(char) * LENGTH));
 };
 
 struct bill
 {
-	char* p_Number = (char*)(malloc(sizeof(char) * 254));;
+	char* p_Number = (char*)(malloc(sizeof(char) * LENGTH));;
 	int code;
-	char* p_During = (char*)(malloc(sizeof(char) * 254));;
-	char* interval = (char*)(malloc(sizeof(char) * 254));;
+	char* p_During = (char*)(malloc(sizeof(char) * LENGTH));;
+	char* interval = (char*)(malloc(sizeof(char) * LENGTH));;
 };
+
+int getSize(char* loc);
+clients* clientBase();
+service* serviceBase();
+bill* billBase();
+char** confIni();
+bool is_SecQuartal(char* date);
+void searchFunc(clients* cBase, service* sBase, bill* bBase, char** key);
+void entryFile(FILE* oFile, int a, int b, clients* cBase, service* sBase, bill* bBase, char** key);
+
+int main()
+{
+	setlocale(0, "rus");
+	clients* CBase = clientBase();
+	service* SBase = serviceBase();
+	bill* BBase = billBase();
+	char** keys = confIni();
+	searchFunc(CBase, SBase, BBase, keys);
+	printf("–ö–æ–Ω—Ñ–∏–≥—É—Ä–∞—Ü–∏—è –∏–Ω—Ñ–æ—Ä–º–∞—Ü–∏–∏!\n");
+	system("pause");
+	return 0;
+}
 
 int getSize(char* loc)
 {
 	int _size = 0;
 	FILE* tmp = fopen(loc, "r");
-	char* buff = (char*)(malloc(sizeof(char) * 1024));
+	char* buff = (char*)(malloc(sizeof(char) * LENGTH));
 	while (!feof(tmp))
 	{
-		fgets(buff, 1024, tmp);
+		fgets(buff, LENGTH, tmp);
 		if (strcmp(buff, "\n"))
 		{
 			_size++;
@@ -61,112 +85,89 @@ int getSize(char* loc)
 	return _size;
 }
 
-
-
-clients* ClientBase()
+clients* clientBase()
 {
-	cSize = getSize(p_clientsFile);
-	clients* CBase = (clients*)(malloc(sizeof(clients)*cSize));
-	FILE* clntFile = fopen(p_clientsFile, "r");
-	if (!feof(clntFile))
+	clientsSize = getSize(clientsFile);
+	clients* CBase = (clients*)(malloc(sizeof(clients)*clientsSize));
+	FILE* clntFile = fopen(clientsFile, "r");
+	int inc = 0;
+	while (!feof(clntFile))
 	{
-		int inc = 0;
-		while (!feof(clntFile))
+		char* buff = (char*)(malloc(sizeof(char) * LENGTH));
+		fgets(buff, LENGTH, clntFile);
+		if (strcmp(buff, "\n"))
 		{
-
-			char* buff = (char*)(malloc(sizeof(char) * 1024));
-			fgets(buff, 1024, clntFile);
-			if (strcmp(buff, "\n"))
-			{
-				char* p_tokken = NULL;
-				CBase[inc].p_FIO = strtok_s(buff, ",", &p_tokken);
-				CBase[inc].p_Number = strtok_s(NULL, ", ", &p_tokken);
-				CBase[inc].p_fDate = strtok_s(NULL, ", ", &p_tokken);
-				CBase[inc].p_lDate = strtok_s(NULL, ",", &p_tokken);
-				CBase[inc].debt = atof(strtok_s(NULL, ",", &p_tokken));
-				CBase[inc].credit = atof(strtok_s(NULL, ",", &p_tokken));
-				inc++;
-			}
+			char* tokken = NULL;
+			CBase[inc].FIO = strtok_s(buff, ",", &tokken);
+			CBase[inc].phonenumber = strtok_s(NULL, ", ", &tokken);
+			CBase[inc].contractdate = strtok_s(NULL, ", ", &tokken);
+			CBase[inc].endcontractdate = strtok_s(NULL, ",", &tokken);
+			CBase[inc].debt = atof(strtok_s(NULL, ",", &tokken));
+			CBase[inc].credit = atof(strtok_s(NULL, ",", &tokken));
+			inc++;
 		}
-		return CBase;
 	}
-	else
-		return NULL;
+	return CBase;
 }
 
-service* ServiceBase()
+service* serviceBase()
 {
-	sSize = getSize(p_serviceFile);
-	service* SBase = (service*)(malloc(sizeof(service)*sSize));
-	FILE* SFile = fopen(p_serviceFile, "r");
-	if (!feof(SFile))
+	serviceSize = getSize(serviceFile);
+	service* SBase = (service*)(malloc(sizeof(service)*serviceSize));
+	FILE* SFile = fopen(serviceFile, "r");
+	int inc = 0;
+	while (!feof(SFile))
 	{
-		int inc = 0;
-		while (!feof(SFile))
+		char* buff = (char*)(malloc(sizeof(char) * LENGTH));
+		fgets(buff, LENGTH, SFile);
+		if (strcmp(buff, "\n"))
 		{
-			char* buff = (char*)(malloc(sizeof(char) * 1024));
-			fgets(buff, 1024, SFile);
-			if (strcmp(buff, "\n"))
-			{
-				char* p_tokken = NULL;
-				SBase[inc].p_servName = strtok_s(buff, ",", &p_tokken);
-				SBase[inc].code = atoi(strtok_s(NULL, ",", &p_tokken));
-				SBase[inc].cost = atof(strtok_s(NULL, ",", &p_tokken));
-				SBase[inc].p_Mera = strtok_s(NULL, ",", &p_tokken);
-				inc++;
-			}
+			char* tokken = NULL;
+			SBase[inc].p_servName = strtok_s(buff, ",", &tokken);
+			SBase[inc].code = atoi(strtok_s(NULL, ",", &tokken));
+			SBase[inc].cost = atof(strtok_s(NULL, ",", &tokken));
+			SBase[inc].p_Mera = strtok_s(NULL, ",", &tokken);
+			inc++;
 		}
-		return SBase;
 	}
-	else
-		return NULL;
+	return SBase;
 }
 
 bill* billBase()
 {
-	bSize = getSize(p_billFile);
-	bill* BBase = (bill*)(malloc(sizeof(service)*bSize));
-	FILE* BFile = fopen(p_billFile, "r");
-	if (!feof(BFile))
+	billSize = getSize(billFile);
+	bill* BBase = (bill*)(malloc(sizeof(service)*billSize));
+	FILE* BFile = fopen(billFile, "r");
+	int inc = 0;
+	while (!feof(BFile))
 	{
-		int inc = 0;
-		while (!feof(BFile))
-		{
-			char* buff = (char*)(malloc(sizeof(char) * 1024));
-			fgets(buff, 1024, BFile);
-			char* p_tokken = NULL;
-			BBase[inc].p_Number = strtok_s(buff, ", ", &p_tokken);
-			BBase[inc].code = atoi(strtok_s(NULL, ",", &p_tokken));
-			BBase[inc].p_During = strtok_s(NULL, ",", &p_tokken);
-			BBase[inc].interval = strtok_s(NULL, ",", &p_tokken);
-			inc++;
-		}
-		return BBase;
+		char* buff = (char*)(malloc(sizeof(char) * LENGTH));
+		fgets(buff, LENGTH, BFile);
+		char* tokken = NULL;
+		BBase[inc].p_Number = strtok_s(buff, ", ", &tokken);
+		BBase[inc].code = atoi(strtok_s(NULL, ",", &tokken));
+		BBase[inc].p_During = strtok_s(NULL, ",", &tokken);
+		BBase[inc].interval = strtok_s(NULL, ",", &tokken);
+		inc++;
 	}
-	else
-		return NULL;
+	return BBase;
 }
 
 char** confIni()
 {
-	kSize = getSize(p_iniFile);
-	FILE* conf = fopen(p_iniFile, "r");
-	char** key = (char**)(malloc(sizeof(char*)*kSize));
-	if (!feof(conf))
+	keysSize = getSize(iniFile);
+	FILE* conf = fopen(iniFile, "r");
+	char** key = (char**)(malloc(sizeof(char*)*keysSize));
+	int inc = 0;
+	while (!feof(conf))
 	{
-		int inc = 0;
-		while (!feof(conf))
-		{
-			char* p_nullPtr = NULL;
-			char* buff = (char*)(malloc(sizeof(char) * 256));
-			fgets(buff, 256, conf);
-			key[inc] = strtok_s(buff, "\n", &p_nullPtr);
-			inc++;
-		}
-		return key;
+		char* tokken = NULL;
+		char* buff = (char*)(malloc(sizeof(char) * LENGTH));
+		fgets(buff, LENGTH, conf);
+		key[inc] = strtok_s(buff, "\n", &tokken);
+		inc++;
 	}
-	else
-		return NULL;
+	return key;
 }
 
 bool is_SecQuartal(char* date)
@@ -178,50 +179,41 @@ bool is_SecQuartal(char* date)
 
 void searchFunc(clients* cBase, service* sBase, bill* bBase, char** key)
 {
-	FILE* oFile = fopen(p_oFile, "w+");
-	fputs("‘‡ÏËÎËˇ: ---   ÕÓÏÂ ÚÂÎÂÙÓÌ‡ ---- ƒ‡Ú‡ Á‡ÍÎ˛˜ÂÌËˇ ‰Ó„Ó‚Ó‡ ----  ”ÒÎÛ„Ë -----\n", oFile);
-	for (int a = 0; a < kSize; a++)
+	FILE* oFile = fopen(reportFile, "w+");
+	fputs("–§–∞–º–∏–ª–∏—è: ---   –ù–æ–º–µ—Ä —Ç–µ–ª–µ—Ñ–æ–Ω–∞ ---- –î–∞—Ç–∞ –∑–∞–∫–ª—é—á–µ–Ω–∏—è –¥–æ–≥–æ–≤–æ—Ä–∞ ----  –£—Å–ª—É–≥–∏ -----\n", oFile);
+	for (int a = 0; a < keysSize; a++)
 	{
-		for (int b = 0; b < cSize; b++)
+		for (int b = 0; b < clientsSize; b++)
 		{
-			if (!strcmp(cBase[b].p_FIO, key[a]) && is_SecQuartal(cBase[b].p_fDate))
-			{
-				fputs(key[a], oFile);
-				fputs(" ", oFile);
-				fputs(cBase[b].p_Number, oFile);
-				fputs(" ", oFile);
-				fputs(cBase[b].p_fDate, oFile);
-				fputs(" :", oFile);
-				for (int c = 0; c < bSize; c++)
-				{
-					if (!strcmp(cBase[b].p_Number, bBase[c].p_Number))
-					{
-						for (int d = 0; d < sSize; d++)
-						{
-							if (bBase[c].code == sBase[d].code)
-							{
-
-								fputs(sBase[d].p_servName, oFile);
-								fputs("; ", oFile);
-							}
-						}
-					}
-				}
-				fputs("\n", oFile);
-			}
+			entryFile(oFile, a, b, cBase, sBase, bBase, key);
 		}
 	}
 }
 
-int main()
+void entryFile(FILE* oFile, int a, int b, clients* cBase, service* sBase, bill* bBase, char** key)
 {
-	setlocale(0, "rus");
-	clients* CBase = ClientBase();
-	service* SBase = ServiceBase();
-	bill* BBase = billBase();
-	char** keys = confIni();
-	searchFunc(CBase, SBase, BBase, keys);
-	printf("Infomation Configurate! \n");
-	system("pause");
-	return 0;
+	if (!strcmp(cBase[b].FIO, key[a]) && is_SecQuartal(cBase[b].contractdate))
+	{
+		fputs(key[a], oFile);
+		fputs(" ", oFile);
+		fputs(cBase[b].phonenumber, oFile);
+		fputs(" ", oFile);
+		fputs(cBase[b].contractdate, oFile);
+		fputs(" :", oFile);
+		for (int c = 0; c < billSize; c++)
+		{
+			if (!strcmp(cBase[b].phonenumber, bBase[c].p_Number))
+			{
+				for (int d = 0; d < serviceSize; d++)
+				{
+					if (bBase[c].code == sBase[d].code)
+					{
+						fputs(sBase[d].p_servName, oFile);
+						fputs("; ", oFile);
+					}
+				}
+			}
+		}
+		fputs("\n", oFile);
+	}
 }

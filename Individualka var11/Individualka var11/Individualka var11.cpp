@@ -1,4 +1,10 @@
-﻿#define _CRT_SECURE_NO_WARNINGS
+﻿/*
+	Елоев Георгий Александрович
+	Индивидуальное задание 
+	Вариант №11
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
 
 #include <string.h>
 #include <fstream>
@@ -32,17 +38,17 @@ struct clients
 
 struct service
 {
-	char* p_servName = (char*)(malloc(sizeof(char) * LENGTH));
+	char* servname = (char*)(malloc(sizeof(char) * LENGTH));
 	int code;
 	float cost;
-	char* p_Mera = (char*)(malloc(sizeof(char) * LENGTH));
+	char* mera = (char*)(malloc(sizeof(char) * LENGTH));
 };
 
 struct bill
 {
-	char* p_Number = (char*)(malloc(sizeof(char) * LENGTH));;
+	char* phonenumber = (char*)(malloc(sizeof(char) * LENGTH));;
 	int code;
-	char* p_During = (char*)(malloc(sizeof(char) * LENGTH));;
+	char* during = (char*)(malloc(sizeof(char) * LENGTH));;
 	char* interval = (char*)(malloc(sizeof(char) * LENGTH));;
 };
 
@@ -123,10 +129,10 @@ service* serviceBase()
 		if (strcmp(buff, "\n"))
 		{
 			char* tokken = NULL;
-			SBase[inc].p_servName = strtok_s(buff, ",", &tokken);
+			SBase[inc].servname = strtok_s(buff, ",", &tokken);
 			SBase[inc].code = atoi(strtok_s(NULL, ",", &tokken));
 			SBase[inc].cost = atof(strtok_s(NULL, ",", &tokken));
-			SBase[inc].p_Mera = strtok_s(NULL, ",", &tokken);
+			SBase[inc].mera = strtok_s(NULL, ",", &tokken);
 			inc++;
 		}
 	}
@@ -144,9 +150,9 @@ bill* billBase()
 		char* buff = (char*)(malloc(sizeof(char) * LENGTH));
 		fgets(buff, LENGTH, BFile);
 		char* tokken = NULL;
-		BBase[inc].p_Number = strtok_s(buff, ", ", &tokken);
+		BBase[inc].phonenumber = strtok_s(buff, ", ", &tokken);
 		BBase[inc].code = atoi(strtok_s(NULL, ",", &tokken));
-		BBase[inc].p_During = strtok_s(NULL, ",", &tokken);
+		BBase[inc].during = strtok_s(NULL, ",", &tokken);
 		BBase[inc].interval = strtok_s(NULL, ",", &tokken);
 		inc++;
 	}
@@ -202,13 +208,13 @@ void entryFile(FILE* oFile, int a, int b, clients* cBase, service* sBase, bill* 
 		fputs(" :", oFile);
 		for (int c = 0; c < billSize; c++)
 		{
-			if (!strcmp(cBase[b].phonenumber, bBase[c].p_Number))
+			if (!strcmp(cBase[b].phonenumber, bBase[c].phonenumber))
 			{
 				for (int d = 0; d < serviceSize; d++)
 				{
 					if (bBase[c].code == sBase[d].code)
 					{
-						fputs(sBase[d].p_servName, oFile);
+						fputs(sBase[d].servname, oFile);
 						fputs("; ", oFile);
 					}
 				}
